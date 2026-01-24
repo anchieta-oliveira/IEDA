@@ -16,7 +16,7 @@ cd IEDA/
 ```
 Create a new Conda environment:
 ```bash
-conda env create -n IEDA python=3.12
+conda create -n IEDA python=3.12
 ```
 Activate environment conda IEDA:
 ```bash
