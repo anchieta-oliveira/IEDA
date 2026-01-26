@@ -6,10 +6,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from ied.ied import IED
-from ied.MOL.PDB import PDB
-from ied.QM.molden import Molden
-from ied.QM.overlap_matrix import OverlapMatrix
+from ieda.ieda import IED
+from ieda.MOL.PDB import PDB
+from ieda.QM.molden import Molden
+from ieda.QM.overlap_matrix import OverlapMatrix
 
 ###############################################################################
 # Grupos de testes

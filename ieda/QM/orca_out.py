@@ -2,9 +2,9 @@
 ###############################################################################
 import re
 import numpy as np
-from ied.QM.MO import MO
-from ied.QM.GTO import GTO
-from ied.core import read_file
+from ieda.QM.MO import MO
+from ieda.QM.GTO import GTO
+from ieda.core import read_file
 ###############################################################################
 
 # License

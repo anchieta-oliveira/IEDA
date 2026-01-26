@@ -21,9 +21,9 @@ import inspect
 import logging
 
 import numpy as np
-from ied.MOL.mol import Mol
-from ied.MOL.PDB import PDB
-from ied.MOL.resid_data import *
+from ieda.MOL.mol import Mol
+from ieda.MOL.PDB import PDB
+from ieda.MOL.resid_data import *
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

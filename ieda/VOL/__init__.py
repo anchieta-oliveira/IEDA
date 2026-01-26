@@ -10,7 +10,7 @@ cube
 dx
     Class to store and manipulate data from dx files.
 """
-from ied.VOL.cube import Cube
-from ied.VOL.dx import DX
+from ieda.VOL.cube import Cube
+from ieda.VOL.dx import DX
 
 __all__ = ['Cube', 'DX']

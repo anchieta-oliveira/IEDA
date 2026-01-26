@@ -47,10 +47,10 @@ class Mol(ABC):
 		if cls is Mol and path != "":
 			ext = path.split('.')[-1].lower()
 			if ext == "pdb":
-				from ied.MOL.PDB import PDB
+				from ieda.MOL.PDB import PDB
 				return super().__new__(PDB)
 			elif ext == "xyz":
-				from ied.MOL.xyz import XYZ
+				from ieda.MOL.xyz import XYZ
 				return super().__new__(XYZ)
 			else:
 				logging.error(f"Unsupported file extension: {ext}")

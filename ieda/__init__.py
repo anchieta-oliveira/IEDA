@@ -8,6 +8,6 @@ Classes
 IED
     Class to calculate the Intermolecular Electron Density (IED).
 """
-from .ied import IED
+from .ieda import IEDA
 
-__all__ = ["IED"]
+__all__ = ["IEDA"]

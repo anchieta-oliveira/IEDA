@@ -13,7 +13,7 @@ Atom class, which is used to store and manipulate data from atoms.
 
 # Imports
 ###############################################################################
-from ied.MOL.atom import Atom
+from ieda.MOL.atom import Atom
 
 # License
 ###############################################################################

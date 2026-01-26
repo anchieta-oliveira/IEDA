@@ -22,8 +22,8 @@ Example
 import copy
 import logging
 
-from ied.MOL.element_data import data
-from ied.MOL.coordinates import Coordinates
+from ieda.MOL.element_data import data
+from ieda.MOL.coordinates import Coordinates
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

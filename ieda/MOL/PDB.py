@@ -51,8 +51,8 @@ import logging
 import tempfile
 import subprocess
 import numpy as np
-from ied.MOL.mol import Mol
-from ied.MOL.atom import Atom
+from ieda.MOL.mol import Mol
+from ieda.MOL.atom import Atom
 from scipy.spatial.transform import Rotation as R
 
 # License

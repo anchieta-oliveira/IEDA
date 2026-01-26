@@ -28,8 +28,8 @@ import logging
 import tempfile
 import subprocess
 import numpy as np
-from ied.MOL import Mol
-from ied.MOL.atom import Atom
+from ieda.MOL import Mol
+from ieda.MOL.atom import Atom
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

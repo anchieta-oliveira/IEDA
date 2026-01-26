@@ -1,12 +1,12 @@
 # Imports
 ###############################################################################
 import numpy as np
-from ied.QM.MO import MO
-from ied.QM.GTO import GTO
-from ied.MOL.atom import Atom
-from ied.core import read_file
-from ied.QM.density_matrix import DensityMatrix
-from ied.QM.overlap_matrix import OverlapMatrix
+from ieda.QM.MO import MO
+from ieda.QM.GTO import GTO
+from ieda.MOL.atom import Atom
+from ieda.core import read_file
+from ieda.QM.density_matrix import DensityMatrix
+from ieda.QM.overlap_matrix import OverlapMatrix
 ##############################################################################
 
 """
@@ -583,7 +583,7 @@ class AUX:
 		return atoms
 
 	def to_molden(self):
-		from ied.QM.molden import Molden
+		from ieda.QM.molden import Molden
 		molden = Molden()
 		# Atoms 
 		id = 1

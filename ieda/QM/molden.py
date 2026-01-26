@@ -1,11 +1,11 @@
 # Imports
 ###############################################################################
 import numpy as np
-from ied.QM.MO import MO
-from ied.QM.aux import AUX
-from ied.QM.GTO import GTO
-from ied.MOL.atom import Atom
-from ied.core import read_file
+from ieda.QM.MO import MO
+from ieda.QM.aux import AUX
+from ieda.QM.GTO import GTO
+from ieda.MOL.atom import Atom
+from ieda.core import read_file
 ###############################################################################
 
 """

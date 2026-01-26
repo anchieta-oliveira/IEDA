@@ -1,7 +1,7 @@
 # Imports
 ###############################################################################
 import numpy as np
-from ied.core import read_file
+from ieda.core import read_file
 from scipy.special import gamma, gammainc
 ###############################################################################
 

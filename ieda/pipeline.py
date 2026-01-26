@@ -3,12 +3,12 @@
 import os
 import logging
 import pandas as pd
-from ied.ied import IED
-from ied.QM.aux import AUX
-from ied.MOL.PDB import PDB
-from ied.QM.molden import Molden
-from ied.QM.orca_out import OrcaOut
-from ied.QM.overlap_matrix import OverlapMatrix
+from ieda.ieda import IEDA
+from ieda.QM.aux import AUX
+from ieda.MOL.PDB import PDB
+from ieda.QM.molden import Molden
+from ieda.QM.orca_out import OrcaOut
+from ieda.QM.overlap_matrix import OverlapMatrix
 ###############################################################################
 
 # License
@@ -48,7 +48,7 @@ class Pipeline:
 			ValueError: If the file format is not supported.
 			FileNotFoundError: If the file does not exist.
 		"""
-		ied = IED()
+		ied = IEDA()
 		if path.split(".")[-1] == "npy":
 			logging.info("Reading .npy file...")
 			df = ied.read_npy_to_df(path)
@@ -134,7 +134,7 @@ class Pipeline:
 		--------
 			None
 		"""
-		ied = IED()
+		ied = IEDA()
 		print(f"Path to QM output file: {qm}")
 
 		s = OverlapMatrix()
@@ -196,7 +196,7 @@ class Pipeline:
 
 
 	def map_3D(self, pdb:str, ied:str, pdbout:str="./IED_3D_map.pdb", sel:str="all", intramol:bool=False, pep_bond:bool=False, nucleic_bond:bool=False, intrachain:bool=True, norm:str="No") -> PDB:
-		a = IED()
+		a = IEDA()
 		__pdb = PDB(pdb)
 		df = self.__read_df(ied)
 
@@ -254,7 +254,7 @@ class Pipeline:
 			logging.info(f"Reading S matrix file: {smatrix}")
 			s.read_from_multiwfn(path=smatrix)
 
-		ied = IED()
+		ied = IEDA()
 		logging.info(f"Reading PDB file: {pdb}")
 		__pdb = PDB(path=pdb)
 		molden = None; aux = None; orc = None
@@ -345,7 +345,7 @@ class Pipeline:
 		--------
 			None
 		"""
-		__ied = IED()
+		__ied = IEDA()
 		__ied.path_ied = ied
 		__pdb = PDB(pdb)
 		df = self.__read_df(ied)
@@ -417,7 +417,7 @@ class Pipeline:
 		--------
 			None"""
 		
-		__ied = IED()
+		__ied = IEDA()
 		__pdb = PDB(pdb)
 		df = self.__read_df(ied)
 		
@@ -466,7 +466,7 @@ class Pipeline:
 		--------
 			None
 		"""
-		__ied = IED()
+		__ied = IEDA()
 		__pdb = PDB(pdb)
 		df = self.__read_df(ied)
 		

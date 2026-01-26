@@ -51,8 +51,8 @@ import tempfile
 
 import numpy as np
 
-from ied.MOL.PDB import PDB
-from ied.MOL.atom import Atom
+from ieda.MOL.PDB import PDB
+from ieda.MOL.atom import Atom
 
 # Set up logging
 logging.basicConfig(level = logging.INFO, format = '%(asctime)s - %(levelname)s - %(message)s')

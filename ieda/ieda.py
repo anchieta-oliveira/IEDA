@@ -5,12 +5,12 @@ import logging
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import ied.core as core
-from ied.MOL.PDB import PDB
+import ieda.core as core
+from ieda.MOL.PDB import PDB
 import matplotlib.pyplot as plt
 from collections import defaultdict
-from ied.MOL.selection import Selection
-from ied.QM.overlap_matrix import OverlapMatrix
+from ieda.MOL.selection import Selection
+from ieda.QM.overlap_matrix import OverlapMatrix
 ###############################################################################
 
 # License
@@ -29,7 +29,7 @@ This project is licensed under Creative Commons license (CC-BY-4.0) (Ver qual)
 
 # Classes
 ###############################################################################
-class IED:
+class IEDA:
     def __init__(self) -> None:
         self.df = pd.DataFrame()
         self.path_ied = ""
