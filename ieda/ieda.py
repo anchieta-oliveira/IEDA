@@ -117,7 +117,7 @@ class IEDA:
             m, b = core.intermolecular_eletron_density_two_selection_gpu(ao_ids_a=ao_ids_a, ao_ids_b=ao_ids_b, mo_coefficients=mo_coefficients, s_matrix=s_matrix, gpu_id=gpu_id)
         else:
             m, b = core.intermolecular_eletron_density_two_selection(ao_ids_a=ao_ids_a, ao_ids_b=ao_ids_b, mo_coefficients=mo_coefficients, s_matrix=s_matrix)
-        logging.info(f"IED by Mulliken: {m}\nIED by AIM: {b}")
+        logging.info(f"IED by Mulliken: {m}\nIED by OB: {b}")
         return (m, b)
     
 
@@ -216,8 +216,8 @@ class IEDA:
                 logging.info(f"{path_out}_matrix_IED_mulliken.npy...")
                 np.save(f"{path_out}_matrix_IED_mulliken.npy", mulliken_matrix)
 
-                logging.info(f"{path_out}_matrix_IED_AIM.npy...")
-                np.save(f"{path_out}_matrix_IED_AIM.npy", bader_matrix)
+                logging.info(f"{path_out}_matrix_IED_OB.npy...")
+                np.save(f"{path_out}_matrix_IED_OB.npy", bader_matrix)
 
             elif out_format == "json":
                 resultado_m = self.__arrays_to_nested_dict(mulliken_matrix, list_ats)
@@ -227,8 +227,8 @@ class IEDA:
                     logging.info(f"Writing .json Mulliken")
                     json.dump(resultado_m, arquivo_m, indent=2)
                 
-                with open(f"{path_out}_matrix_IED_AIM.json", 'w') as arquivo_b:
-                    logging.info(f"Writing .json AIM")
+                with open(f"{path_out}_matrix_IED_OB.json", 'w') as arquivo_b:
+                    logging.info(f"Writing .json OB")
                     json.dump(resultado_b, arquivo_b, indent=2)
 
         return mulliken_matrix, bader_matrix
@@ -829,7 +829,7 @@ class IEDA:
             pd.DataFrame
                 DataFrame with intramolecular interactions removed.
         """
-        df_values = df.values  
+        df_values = df.values.copy()  
         resinid = pdb.data.resinid
         inid = pdb.data.inid
 
@@ -864,7 +864,7 @@ class IEDA:
         if pro.natoms == 0:
             return df
         
-        df_values = df.values 
+        df_values = df.values.copy() 
 
         resseqs = np.unique(pro.data.resseq)
         resinid = pro.data.resseq
@@ -905,7 +905,7 @@ class IEDA:
         if nuc.natoms == 0:
             return df
         
-        df_values = df.values 
+        df_values = df.values.copy() 
         resseqs = np.unique(nuc.data.resseq)
         resinid = nuc.data.resseq
         inid = nuc.data.inid
@@ -941,7 +941,7 @@ class IEDA:
                 DataFrame with intramolecular interactions removed.
         """
         chains = np.unique(pdb.data.chainids)
-        df_values = df.values  # acesso direto ao array NumPy (muito mais rápido)
+        df_values = df.values.copy()
 
         for chain in chains:
             sel_chain = Selection(selection=f"chain {chain}", mol=pdb).result
