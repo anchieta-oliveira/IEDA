@@ -741,75 +741,60 @@ class IEDA:
         return df
     
 
-    def normalize_dataframe(self, df:pd.DataFrame, type_norm:str="MinMaxLog") -> pd.DataFrame:
+    def normalize_dataframe(self, df: pd.DataFrame, type_norm: str = "MinMaxLog") -> pd.DataFrame:
         """
-        Normalizes the values in a DataFrame using the specified normalization method.
+        Normalize the values in a DataFrame using the specified normalization method.
         Parameters
         ----------
         df : pd.DataFrame
-            DataFrame containing the data to normalize.
+            DataFrame to be normalized.
         type_norm : str, optional
-            Normalization method to use. Options are "MinMaxLog", "MinMax", or "No". Default is "MinMaxLog".
+            Type of normalization to apply. Options are "MinMaxLog" and "MinMax". Default is "MinMaxLog".
         Returns
         -------
         pd.DataFrame
-            DataFrame with normalized values.
+            Normalized DataFrame.
         Notes
         -----
-        The function supports two normalization methods:
-        - "MinMaxLog": Applies a logarithmic transformation followed by min-max normalization to scale values to the range [0, 1].
-        - "MinMax": Applies min-max normalization directly to scale values to the range [0, 1].
-        If "No" is specified, the original DataFrame is returned without any normalization.
+        The "MinMaxLog" normalization applies a logarithmic transformation followed by min-max scaling.
+        The "MinMax" normalization applies min-max scaling directly to the data.
+        If the minimum and maximum values are equal, the DataFrame is filled with zeros to avoid division by zero.
         Example
         -------
         >>> ied = IED()
-        >>> df = pd.DataFrame({'0': [1, 10], '1': [5, 50]})
+        >>> df = pd.DataFrame([[1, 2], [3, 4]])
         >>> normalized_df = ied.normalize_dataframe(df, type_norm="MinMaxLog")
         """
-        if "MinMaxLog" == type_norm:
-            # Loop através de cada coluna no DataFrame
-            for coluna in df.columns:
-                # Obtém os valores da coluna como um array NumPy
-                x = df[coluna].values
-                # Adiciona um valor pequeno para evitar problemas com log(0)
-                x += 1e-10
-                # Aplica o logaritmo aos valores
-                x_log = np.log(x)
-                # Verifica se a coluna tem valores constantes
-                min_val = np.min(x_log)
-                max_val = np.max(x_log)
-                
-                if min_val == max_val:
-                    # Se todos os valores são iguais, define todos os valores normalizados como 0.5 (meio do intervalo 0-1)
-                    x_norm = np.full_like(x_log, .0)
-                else:
-                    # Normaliza os valores logarítmicos para o intervalo de 0 a 1
-                    x_norm = (x_log - min_val) / (max_val - min_val)
-                
-                # Substitui a coluna no DataFrame pelos valores normalizados
-                df[coluna] = x_norm
+        df = df.copy()
+
+        if type_norm == "MinMaxLog":
+            # log do DF inteiro
+            x = np.log(df.values + 1e-10)
+
+            min_val = x.min()
+            max_val = x.max()
+
+            if min_val == max_val:
+                df[:] = 0.0
+            else:
+                df[:] = (x - min_val) / (max_val - min_val)
+
             return df
-            
-        elif "MinMax" == type_norm:
-            # Loop através de cada coluna no DataFrame
-            for coluna in df.columns:
-                # Obtém os valores da coluna como um array NumPy
-                x = df[coluna].values
-                min_val = np.min(x)
-                max_val = np.max(x)
-                
-                if min_val == max_val:
-                    # Se todos os valores são iguais, define todos os valores normalizados como 0.5 (meio do intervalo 0-1)
-                    x_norm = np.full_like(x, .0)
-                else:
-                    # Normaliza os valores logarítmicos para o intervalo de 0 a 1
-                    x_norm = (x - min_val) / (max_val - min_val)
-                
-                # Substitui a coluna no DataFrame pelos valores normalizados
-                df[coluna] = x_norm
+
+        elif type_norm == "MinMax":
+            x = df.values
+
+            min_val = x.min()
+            max_val = x.max()
+
+            if min_val == max_val:
+                df[:] = 0.0
+            else:
+                df[:] = (x - min_val) / (max_val - min_val)
+
             return df
-        
-        elif True:
+
+        else:
             return df
 
     
