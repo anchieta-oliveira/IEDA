@@ -1,5 +1,5 @@
 # IEDA
-IEDA is a tool for analyzing, quantifying, and visualizing intermolecular electronic density (IED) in biomolecular systems. The methodology uses quantum approaches derived from Mulliken overlap populations and atom-in-molecule (AIM) theory, allowing the identification of regions where there is electron sharing between non-covalently bonded molecules, such as in hydrogen bonds. The goal of IEDA is to provide an electronic descriptor capable of assisting in the study of binding affinity, molecular recognition, and detailed analysis of intermolecular interactions in computational models and experimental data.
+IEDA is a tool for analyzing, quantifying, and visualizing intermolecular electronic density (IED) in biomolecular systems. The methodology uses quantum approaches derived from Mulliken overlap populations and orbital-based (OB) theory, allowing the identification of regions where there is electron sharing between non-covalently bonded molecules, such as in hydrogen bonds. The goal of IEDA is to provide an electronic descriptor capable of assisting in the study of binding affinity, molecular recognition, and detailed analysis of intermolecular interactions in computational models and experimental data.
 ![](https://github.com/anchieta-oliveira/IED_/blob/main/doc/gallery/figure_1.png)
 
 ## Installation 
