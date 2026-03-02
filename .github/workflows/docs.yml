@@ -4,31 +4,29 @@ on:
   push:
     branches: [ main ]
 
-permissions:
-  contents: write
-
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: 3.12
 
-      - run: |
+      - name: Install dependencies
+        run: |
           pip install sphinx sphinx-rtd-theme
-          pip install .
 
       - name: Build docs
         run: |
           cd doc
-          sphinx-build -b html source html
+          make html
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: doc/html
+          publish_dir: doc/build/html
