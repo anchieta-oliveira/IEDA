@@ -50,4 +50,8 @@ IEDA two_sel --pdb for/your/pdbfile.pdb --qm for/your/qmfile.out --qm_sof orca -
 ```
 The IEDA selection pattern can be seen [here](https://anchieta-oliveira.github.io/IEDA/tutorial/selection_syntax.html).
 
+### Step 4.2: Quickstart Coogle Colab
+IEDA can be used within Jupyter Notebook and Google Colab environments. A simple usage example is available [here](https://colab.research.google.com/drive/1PvCzlCzPxuIH9JdD_qH3dX13WGOK9imU?usp=sharing).
+
+
 For more information, please refer to the [documentation](https://anchieta-oliveira.github.io/IEDA/). 
