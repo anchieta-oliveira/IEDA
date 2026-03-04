@@ -1,0 +1,306 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Selection Keywords &mdash; IEDA  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Theory Overview" href="../theory/overview.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            IEDA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Selection Keywords</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#residue-based-selections">Residue-based Selections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#atom-based-selections">Atom-based Selections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#chain-and-segment-selections">Chain and Segment Selections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#numeric-filters">Numeric Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spatial-selection">Spatial Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#logical-and-relational-operators">Logical and Relational Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#biomolecular-categories">Biomolecular Categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#general-selection">General Selection</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Theory</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../theory/overview.html">Theory Overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api/modules.html">ieda</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">IEDA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Selection Keywords</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorial/selection_syntax.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="selection-keywords">
+<h1>Selection Keywords<a class="headerlink" href="#selection-keywords" title="Link to this heading"></a></h1>
+<p>This section describes the available keywords used to create atom selections.
+Selections allow users to filter atoms based on structural, chemical, or spatial
+properties of a molecular system.</p>
+<section id="residue-based-selections">
+<h2>Residue-based Selections<a class="headerlink" href="#residue-based-selections" title="Link to this heading"></a></h2>
+<p>These keywords select atoms based on residue information.</p>
+<ul>
+<li><p><strong>resid</strong></p>
+<dl class="simple">
+<dt>Select atoms by residue sequence number.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">resid</span> <span class="pre">10</span></code> selects atoms in residue number 10.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>resname</strong></p>
+<dl class="simple">
+<dt>Select atoms by residue name.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">resname</span> <span class="pre">ALA</span></code> selects atoms in alanine residues.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>residue</strong></p>
+<dl class="simple">
+<dt>Select atoms by internal residue ID.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">residue</span> <span class="pre">5</span></code> selects atoms in the residue with internal ID 5 (sequential numbering).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="atom-based-selections">
+<h2>Atom-based Selections<a class="headerlink" href="#atom-based-selections" title="Link to this heading"></a></h2>
+<p>These keywords select atoms using atom-level identifiers.</p>
+<ul>
+<li><p><strong>atom</strong></p>
+<dl class="simple">
+<dt>Select atoms by atom serial number.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">atom</span> <span class="pre">15</span></code> selects the atom with serial number 15.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>atomid</strong></p>
+<dl class="simple">
+<dt>Select atoms by internal atom ID.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">atomid</span> <span class="pre">20</span></code> selects the atom with internal ID 20 (sequential numbering).</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>name</strong></p>
+<dl class="simple">
+<dt>Select atoms by atom name.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">CA</span></code> selects atoms named CA (alpha carbons in proteins).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="chain-and-segment-selections">
+<h2>Chain and Segment Selections<a class="headerlink" href="#chain-and-segment-selections" title="Link to this heading"></a></h2>
+<p>These keywords select atoms based on structural grouping.</p>
+<ul>
+<li><p><strong>chain</strong></p>
+<dl class="simple">
+<dt>Select atoms by chain ID.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">chain</span> <span class="pre">A</span></code> selects atoms in chain A.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>segname</strong></p>
+<dl class="simple">
+<dt>Select atoms by segment name.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">segname</span> <span class="pre">PROT</span></code> selects atoms in the segment named PROT.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="numeric-filters">
+<h2>Numeric Filters<a class="headerlink" href="#numeric-filters" title="Link to this heading"></a></h2>
+<p>These keywords filter atoms based on numerical properties.</p>
+<ul>
+<li><p><strong>beta</strong></p>
+<p>Select atoms using B-factor (temperature factor) values.
+Supports comparison operators such as <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code>, and <code class="docutils literal notranslate"><span class="pre">==</span></code>.</p>
+<blockquote>
+<div><p>E.g., <code class="docutils literal notranslate"><span class="pre">beta</span> <span class="pre">&gt;</span> <span class="pre">0.5</span></code> selects atoms with B-factor greater than 0.5.</p>
+</div></blockquote>
+</li>
+<li><p><strong>occupancy</strong></p>
+<dl class="simple">
+<dt>Select atoms based on occupancy values using comparison operators.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">occupancy</span> <span class="pre">&lt;=</span> <span class="pre">0.8</span></code> selects atoms with occupancy less than or equal to 0.8.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="spatial-selection">
+<h2>Spatial Selection<a class="headerlink" href="#spatial-selection" title="Link to this heading"></a></h2>
+<p>Selections based on geometric relationships.</p>
+<ul>
+<li><p><strong>within</strong></p>
+<dl class="simple">
+<dt>Select atoms within a specified distance from another selection.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">within</span> <span class="pre">5</span> <span class="pre">of</span> <span class="pre">resid</span> <span class="pre">10</span></code> selects atoms within 5 Å of residue number 10.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="logical-and-relational-operators">
+<h2>Logical and Relational Operators<a class="headerlink" href="#logical-and-relational-operators" title="Link to this heading"></a></h2>
+<p>These operators allow combining or modifying selections.</p>
+<ul>
+<li><p><strong>and</strong></p>
+<dl class="simple">
+<dt>Combine selections using intersection.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">protein</span> <span class="pre">and</span> <span class="pre">resname</span> <span class="pre">ALA</span></code> selects atoms that are both in the protein and in alanine residues.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>or</strong></p>
+<dl class="simple">
+<dt>Combine selections using union.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">resname</span> <span class="pre">ALA</span> <span class="pre">or</span> <span class="pre">segname</span> <span class="pre">ALIG</span></code> selects atoms that are either in alanine residues or in the segment named ALIG.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>not</strong></p>
+<dl class="simple">
+<dt>Exclude atoms from a selection.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">water</span></code> selects all atoms that are not part of water molecules.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>same</strong></p>
+<dl class="simple">
+<dt>Select atoms sharing a specific property with another selection.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">same</span> <span class="pre">residue</span> <span class="pre">as</span> <span class="pre">within</span> <span class="pre">5</span> <span class="pre">of</span> <span class="pre">resid</span> <span class="pre">10</span></code> selects atoms in the same residue as those within 5 Å of residue number 10.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="biomolecular-categories">
+<h2>Biomolecular Categories<a class="headerlink" href="#biomolecular-categories" title="Link to this heading"></a></h2>
+<p>Predefined selections for common biomolecular groups.</p>
+<ul>
+<li><p><strong>protein</strong></p>
+<dl class="simple">
+<dt>Select atoms belonging to protein residues.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">protein</span></code> selects all atoms in protein residues.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>backbone</strong></p>
+<dl class="simple">
+<dt>Select protein backbone atoms (e.g., N, CA, C, O).</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">backbone</span></code> selects all backbone atoms in proteins.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>water</strong></p>
+<dl class="simple">
+<dt>Select water molecules.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">water</span></code> selects all atoms in water molecules.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>lipids</strong></p>
+<dl class="simple">
+<dt>Select lipid molecules.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">lipids</span></code> selects all atoms in lipid molecules.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>nucleic</strong></p>
+<dl class="simple">
+<dt>Select nucleic acid residues.</dt><dd><p>E.g., <code class="docutils literal notranslate"><span class="pre">nucleic</span></code> selects all atoms in nucleic acid residues.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="general-selection">
+<h2>General Selection<a class="headerlink" href="#general-selection" title="Link to this heading"></a></h2>
+<ul>
+<li><p><strong>all</strong></p>
+<p>Select all atoms in the system.</p>
+</li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quickstart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../theory/overview.html" class="btn btn-neutral float-right" title="Theory Overview" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, José de Anchieta de Oliveira Filho.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
