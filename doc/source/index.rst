@@ -28,6 +28,7 @@ The goal of IEDA is to provide an electronic descriptor to assist in:
    :caption: User Guide
 
    tutorial/quickstart
+   tutorial/selection_syntax.rst
 
 .. toctree::
    :maxdepth: 2
