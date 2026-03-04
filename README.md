@@ -40,14 +40,14 @@ IEDA matrix --pdb for/your/pdbfile.pdb --qm for/your/qmfile.out --qm_sof orca
 ```
 Assemble the 3D map in a .pdb file with the IED per atom in the beta column, which can be viewed in any visualization program (pyMOL, VMD, Chimera, etc.):
 ```bash
-map_3D --pdb for/your/pdbfile.pdb --ied for/your/IED_mulliken.npy --intrachain False
+IEDA map_3D --pdb for/your/pdbfile.pdb --ied for/your/IED_mulliken.npy --intrachain False
 ```
 OBS: The "--intrachain" parameter only considers the IED between different chains, for example, the protein in chain A and the ligand in chain X. The map will only represent the IED between the protein and the ligand. 
 
 Calculate the IED between two selections:
 ```bash
-map_3D --pdb for/your/pdbfile.pdb --qm for/your/qmfile.out --qm_sof orca --sel_a "chain A" --sel_b "resname LIG" 
+IEDA two_sel --pdb for/your/pdbfile.pdb --qm for/your/qmfile.out --qm_sof orca --sel_a "chain A" --sel_b "resname LIG" 
 ```
-The IEDA selection pattern can be seen [here](./doc/selection.md).
+The IEDA selection pattern can be seen [here](https://anchieta-oliveira.github.io/IEDA/tutorial/selection_syntax.html).
 
 For more information, please refer to the [documentation](https://anchieta-oliveira.github.io/IEDA/). 
