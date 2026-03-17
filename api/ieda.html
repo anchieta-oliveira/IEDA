@@ -653,7 +653,7 @@
 <dt class="sig sig-object py" id="ieda.core.intermolecular_eletron_density_two_selection">
 <span class="sig-prename descclassname"><span class="pre">ieda.core.</span></span><span class="sig-name descname"><span class="pre">intermolecular_eletron_density_two_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ao_ids_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ao_ids_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mo_coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.core.intermolecular_eletron_density_two_selection" title="Link to this definition"></a></dt>
 <dd><p>Intermolecular Electron Density Analysis (IEDA) between two selections of atomic orbitals (AOs).
-This function computes the intermolecular electron density contributions using both Mulliken and Bader methods.</p>
+This function computes the intermolecular electron density contributions using both Mulliken and OB methods.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -666,7 +666,7 @@ This function computes the intermolecular electron density contributions using b
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A tuple containing two float values:
 - The first value is the Mulliken contribution to the intermolecular electron density.
-- The second value is the Bader contribution to the intermolecular electron density.</p>
+- The second value is the OB contribution to the intermolecular electron density.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple</p>
@@ -683,7 +683,7 @@ This function computes the intermolecular electron density contributions using b
 <dt class="sig sig-object py" id="ieda.core.intermolecular_eletron_density_two_selection_gpu">
 <span class="sig-prename descclassname"><span class="pre">ieda.core.</span></span><span class="sig-name descname"><span class="pre">intermolecular_eletron_density_two_selection_gpu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ao_ids_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ao_ids_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mo_coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu_id</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="headerlink" href="#ieda.core.intermolecular_eletron_density_two_selection_gpu" title="Link to this definition"></a></dt>
 <dd><p>Calculate intermolecular electron density contributions for two selections of atomic orbitals (AOs) using GPU acceleration.
-This function computes the intermolecular electron density contributions using both Mulliken and Bader methods,
+This function computes the intermolecular electron density contributions using both Mulliken and OB methods,
 leveraging CUDA for parallel computation.
 :param ao_ids_a: Array of indices for the first selection of atomic orbitals (AOs).
 :type ao_ids_a: np.array
@@ -699,7 +699,7 @@ leveraging CUDA for parallel computation.
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A tuple containing two float values:
 - The first value is the Mulliken contribution to the intermolecular electron density.
-- The second value is the Bader contribution to the intermolecular electron density.</p>
+- The second value is the OB contribution to the intermolecular electron density.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>tuple</p>
@@ -715,7 +715,7 @@ leveraging CUDA for parallel computation.
 <dl class="py function">
 <dt class="sig sig-object py" id="ieda.core.matrix_intermolecular_eletron_density_numba">
 <span class="sig-prename descclassname"><span class="pre">ieda.core.</span></span><span class="sig-name descname"><span class="pre">matrix_intermolecular_eletron_density_numba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ao_atomindex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mo_coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.core.matrix_intermolecular_eletron_density_numba" title="Link to this definition"></a></dt>
-<dd><p>Compute the intermolecular electron density matrix using Mulliken and Bader methods.
+<dd><p>Compute the intermolecular electron density matrix using Mulliken and OB methods.
 This function calculates the intermolecular electron density contributions for each pair of atoms
 based on their associated atomic orbitals (AOs) and molecular orbital (MO) coefficients using Numba for optimization.</p>
 <dl class="field-list simple">
@@ -730,7 +730,7 @@ based on their associated atomic orbitals (AOs) and molecular orbital (MO) coeff
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A tuple containing two 2D numpy arrays:
 - The first array is the Mulliken intermolecular electron density matrix.
-- The second array is the Bader intermolecular electron density matrix.</p>
+- The second array is the OB intermolecular electron density matrix.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple</p>
@@ -747,7 +747,7 @@ based on their associated atomic orbitals (AOs) and molecular orbital (MO) coeff
 <dl class="py function">
 <dt class="sig sig-object py" id="ieda.core.matrix_intermolecular_eletron_density_numba_gpu">
 <span class="sig-prename descclassname"><span class="pre">ieda.core.</span></span><span class="sig-name descname"><span class="pre">matrix_intermolecular_eletron_density_numba_gpu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ao_atomindex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mo_coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;class</span> <span class="pre">'numpy.float32'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.core.matrix_intermolecular_eletron_density_numba_gpu" title="Link to this definition"></a></dt>
-<dd><p>Compute the intermolecular electron density matrix using Mulliken and Bader methods on a GPU.
+<dd><p>Compute the intermolecular electron density matrix using Mulliken and OB methods on a GPU.
 This function calculates the intermolecular electron density contributions for each pair of atoms
 based on their associated atomic orbitals (AOs) and molecular orbital (MO) coefficients using CUDA for acceleration.</p>
 <dl class="field-list simple">
@@ -763,7 +763,7 @@ based on their associated atomic orbitals (AOs) and molecular orbital (MO) coeff
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A tuple containing two 2D numpy arrays:
 - The first array is the Mulliken intermolecular electron density matrix.
-- The second array is the Bader intermolecular electron density matrix.</p>
+- The second array is the OB intermolecular electron density matrix.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple</p>
