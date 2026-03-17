@@ -59,7 +59,7 @@ def intermolecular_eletron_density_two_selection(ao_ids_a:np.array, ao_ids_b:np.
         tmp_comp_bader = .0
         for ci in ao_ids_a:
             for cj in ao_ids_b:
-                tmp_comp_mulliken += abs(mo[ci] * mo[cj]) * abs(s_matrix[ci, cj])
+                tmp_comp_mulliken += abs(mo[ci] * mo[cj]) * s_matrix[ci, cj]
                 tmp_comp_bader += (mo[ci]*mo[ci]) * (mo[cj]*mo[cj])
         result_comp_bader += tmp_comp_bader
         result_comp_mulliken += tmp_comp_mulliken 
@@ -122,7 +122,7 @@ def matrix_intermolecular_eletron_density_numba(ats: np.array, ao_atomindex: np.
                     for cj in ao_ids_b:
                         """if ci == cj:
                             continue"""
-                        tmp_comp_mulliken += abs(mo[ci] * mo[cj]) * abs(s_matrix[ci, cj])
+                        tmp_comp_mulliken += abs(mo[ci] * mo[cj]) * s_matrix[ci, cj]
                         tmp_comp_bader += (mo[ci] * mo[ci]) * (mo[cj] * mo[cj])
                 
                 result_comp_bader += tmp_comp_bader
@@ -175,7 +175,7 @@ def two_selection_type_ao(ao_ids_a:np.array, ao_ids_b:np.array, mo_coefficients:
         mo = mo_coefficients[i]
         for ci in ao_ids_a:
             for cj in ao_ids_b:
-                po = abs(mo[ci] * mo[cj]) * abs(s_matrix[ci, cj])
+                po = abs(mo[ci] * mo[cj]) * s_matrix[ci, cj]
                 resul[count] = np.array([i, po, ci, cj])
                 count += 1
 
@@ -223,7 +223,7 @@ def __kernel_ieda_two_sel(ao_ids_a, ao_ids_b, mo_coeffs, s_matrix, out_mulliken,
             for bj in range(n_ao_b):
                 cj = ao_ids_b[bj]
                 mo_cj = mo_coeffs[mo_idx, cj]
-                tmp_m += abs(mo_ci * mo_cj) * abs(s_matrix[ci, cj])
+                tmp_m += abs(mo_ci * mo_cj) * s_matrix[ci, cj]
                 tmp_b += mo_ci2 * (mo_cj * mo_cj)
         partial_m += tmp_m
         partial_b += tmp_b
@@ -416,7 +416,7 @@ def __kernel_ieda(n_atoms, n_mos, ao_index_flat, ao_start, ao_count, mo_coeffs, 
                 cj = ao_index_flat[start_j + aj_idx]
                 mo_cj = mo_coeffs[im, cj]
                 # Mulliken contribution:
-                tmp_m += abs(mo_ci * mo_cj) * abs(s_matrix[ci, cj])
+                tmp_m += abs(mo_ci * mo_cj) * s_matrix[ci, cj]
                 # Bader contribution:
                 tmp_b += mo_ci2 * (mo_cj * mo_cj)
 
