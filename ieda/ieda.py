@@ -716,7 +716,7 @@ class IEDA:
         The path to the numpy file will be stored in the `self.path_npy` attribute.
         Example
         -------
-        >>> ied = IED()
+        >>> ieda = IEDA()
         >>> df = ied.read_npy_to_df("path/to/matrix.npy")  
         >>> print(df.shape)
         (100, 100)
