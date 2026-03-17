@@ -27,7 +27,7 @@ This project is licensed under Creative Commons license (CC-BY-4.0) (Ver qual)
 def intermolecular_eletron_density_two_selection(ao_ids_a:np.array, ao_ids_b:np.array, mo_coefficients:np.array, s_matrix:np.array):
     """
     Intermolecular Electron Density Analysis (IEDA) between two selections of atomic orbitals (AOs).
-    This function computes the intermolecular electron density contributions using both Mulliken and Bader methods.
+    This function computes the intermolecular electron density contributions using both Mulliken and OB methods.
 
     Parameters
     ----------
@@ -44,7 +44,7 @@ def intermolecular_eletron_density_two_selection(ao_ids_a:np.array, ao_ids_b:np.
     tuple
         A tuple containing two float values:
         - The first value is the Mulliken contribution to the intermolecular electron density.
-        - The second value is the Bader contribution to the intermolecular electron density.
+        - The second value is the OB contribution to the intermolecular electron density.
     Notes
     -----
     - This function is optimized using Numba for parallel execution.
@@ -59,7 +59,7 @@ def intermolecular_eletron_density_two_selection(ao_ids_a:np.array, ao_ids_b:np.
         tmp_comp_bader = .0
         for ci in ao_ids_a:
             for cj in ao_ids_b:
-                tmp_comp_mulliken += abs(mo[ci] * mo[cj]) * s_matrix[ci, cj]
+                tmp_comp_mulliken += abs(mo[ci] * mo[cj]) * abs(s_matrix[ci, cj])
                 tmp_comp_bader += (mo[ci]*mo[ci]) * (mo[cj]*mo[cj])
         result_comp_bader += tmp_comp_bader
         result_comp_mulliken += tmp_comp_mulliken 
@@ -70,7 +70,7 @@ def intermolecular_eletron_density_two_selection(ao_ids_a:np.array, ao_ids_b:np.
 @numba.njit(cache=True, parallel=True)
 def matrix_intermolecular_eletron_density_numba(ats: np.array, ao_atomindex: np.array, mo_coefficients: np.array, s_matrix: np.array):
     """
-    Compute the intermolecular electron density matrix using Mulliken and Bader methods.
+    Compute the intermolecular electron density matrix using Mulliken and OB methods.
     This function calculates the intermolecular electron density contributions for each pair of atoms
     based on their associated atomic orbitals (AOs) and molecular orbital (MO) coefficients using Numba for optimization.
 
@@ -89,7 +89,7 @@ def matrix_intermolecular_eletron_density_numba(ats: np.array, ao_atomindex: np.
     tuple
         A tuple containing two 2D numpy arrays:
         - The first array is the Mulliken intermolecular electron density matrix.
-        - The second array is the Bader intermolecular electron density matrix.
+        - The second array is the OB intermolecular electron density matrix.
     Notes
     -----
     - This function is optimized using Numba for parallel execution.
@@ -122,7 +122,7 @@ def matrix_intermolecular_eletron_density_numba(ats: np.array, ao_atomindex: np.
                     for cj in ao_ids_b:
                         """if ci == cj:
                             continue"""
-                        tmp_comp_mulliken += abs(mo[ci] * mo[cj]) * s_matrix[ci, cj]
+                        tmp_comp_mulliken += abs(mo[ci] * mo[cj]) * abs(s_matrix[ci, cj])
                         tmp_comp_bader += (mo[ci] * mo[ci]) * (mo[cj] * mo[cj])
                 
                 result_comp_bader += tmp_comp_bader
@@ -175,7 +175,7 @@ def two_selection_type_ao(ao_ids_a:np.array, ao_ids_b:np.array, mo_coefficients:
         mo = mo_coefficients[i]
         for ci in ao_ids_a:
             for cj in ao_ids_b:
-                po = abs(mo[ci] * mo[cj]) * s_matrix[ci, cj]
+                po = abs(mo[ci] * mo[cj]) * abs(s_matrix[ci, cj])
                 resul[count] = np.array([i, po, ci, cj])
                 count += 1
 
@@ -188,7 +188,7 @@ def two_selection_type_ao(ao_ids_a:np.array, ao_ids_b:np.array, mo_coefficients:
 def __kernel_ieda_two_sel(ao_ids_a, ao_ids_b, mo_coeffs, s_matrix, out_mulliken, out_bader):
     """
     GPU kernel para cálculo da densidade eletrônica intermolecular entre duas seleções AO.
-    Cada bloco reduz sobre os MOs e produz um par (Mulliken, Bader) como resultado.
+    Cada bloco reduz sobre os MOs e produz um par (Mulliken, OB) como resultado.
 
     Parâmetros
     ----------
@@ -223,7 +223,7 @@ def __kernel_ieda_two_sel(ao_ids_a, ao_ids_b, mo_coeffs, s_matrix, out_mulliken,
             for bj in range(n_ao_b):
                 cj = ao_ids_b[bj]
                 mo_cj = mo_coeffs[mo_idx, cj]
-                tmp_m += abs(mo_ci * mo_cj) * s_matrix[ci, cj]
+                tmp_m += abs(mo_ci * mo_cj) * abs(s_matrix[ci, cj])
                 tmp_b += mo_ci2 * (mo_cj * mo_cj)
         partial_m += tmp_m
         partial_b += tmp_b
@@ -252,7 +252,7 @@ def __kernel_ieda_two_sel(ao_ids_a, ao_ids_b, mo_coeffs, s_matrix, out_mulliken,
 def intermolecular_eletron_density_two_selection_gpu(ao_ids_a:np.array, ao_ids_b:np.array, mo_coefficients:np.array, s_matrix:np.array, gpu_id) -> tuple:
     """
     Calculate intermolecular electron density contributions for two selections of atomic orbitals (AOs) using GPU acceleration.
-    This function computes the intermolecular electron density contributions using both Mulliken and Bader methods,
+    This function computes the intermolecular electron density contributions using both Mulliken and OB methods,
     leveraging CUDA for parallel computation.
     Parameters
     ----------
@@ -271,7 +271,7 @@ def intermolecular_eletron_density_two_selection_gpu(ao_ids_a:np.array, ao_ids_b
     tuple
         A tuple containing two float values:
         - The first value is the Mulliken contribution to the intermolecular electron density.
-        - The second value is the Bader contribution to the intermolecular electron density.
+        - The second value is the OB contribution to the intermolecular electron density.
     Notes
     -----
     - This function utilizes Numba's CUDA JIT compiler for GPU acceleration.
@@ -351,7 +351,7 @@ def __build_ao_index_flat(ao_atomindex, ats):
 @cuda.jit(fastmath=True, cache=True)
 def __kernel_ieda(n_atoms, n_mos, ao_index_flat, ao_start, ao_count, mo_coeffs, s_matrix, matrix_m_out, matrix_b_out):
     """
-    CUDA kernel to compute the intermolecular electron density matrix using Mulliken and Bader methods.
+    CUDA kernel to compute the intermolecular electron density matrix using Mulliken and OB methods.
     This kernel calculates the intermolecular electron density contributions for each pair of atoms
     based on their associated atomic orbitals (AOs) and molecular orbital (MO) coefficients.
     
@@ -416,8 +416,8 @@ def __kernel_ieda(n_atoms, n_mos, ao_index_flat, ao_start, ao_count, mo_coeffs, 
                 cj = ao_index_flat[start_j + aj_idx]
                 mo_cj = mo_coeffs[im, cj]
                 # Mulliken contribution:
-                tmp_m += abs(mo_ci * mo_cj) * s_matrix[ci, cj]
-                # Bader contribution:
+                tmp_m += abs(mo_ci * mo_cj) * abs(s_matrix[ci, cj])
+                # OB contribution:
                 tmp_b += mo_ci2 * (mo_cj * mo_cj)
 
         res_m += tmp_m
@@ -437,7 +437,7 @@ def __kernel_ieda(n_atoms, n_mos, ao_index_flat, ao_start, ao_count, mo_coeffs, 
 
 def matrix_intermolecular_eletron_density_numba_gpu(ats: np.array, ao_atomindex: np.array, mo_coefficients: np.array, s_matrix: np.array, dtype=np.float32, gpu_id: int = 0):
     """
-    Compute the intermolecular electron density matrix using Mulliken and Bader methods on a GPU.
+    Compute the intermolecular electron density matrix using Mulliken and OB methods on a GPU.
     This function calculates the intermolecular electron density contributions for each pair of atoms
     based on their associated atomic orbitals (AOs) and molecular orbital (MO) coefficients using CUDA for acceleration.
 
@@ -458,7 +458,7 @@ def matrix_intermolecular_eletron_density_numba_gpu(ats: np.array, ao_atomindex:
     tuple
         A tuple containing two 2D numpy arrays:
         - The first array is the Mulliken intermolecular electron density matrix.
-        - The second array is the Bader intermolecular electron density matrix.
+        - The second array is the OB intermolecular electron density matrix.
     Notes
     -----
     - This function utilizes Numba's CUDA JIT compiler for GPU acceleration.
@@ -530,7 +530,6 @@ def read_file(path) -> str:
     """
     if path.endswith(".zip"):
         with zipfile.ZipFile(path, "r") as zf:
-            # Pega o primeiro arquivo de texto dentro do ZIP
             names = zf.namelist()
             if not names:
                 raise ValueError(f"Null '{path}'.")
