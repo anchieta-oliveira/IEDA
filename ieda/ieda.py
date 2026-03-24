@@ -885,7 +885,7 @@ class IEDA:
             pd.DataFrame
                 DataFrame with nucleic bonds removed.
         """
-        nuc = Selection(selection="nucleic", mol=pdb).result
+        nuc = Selection(selection="name H1' H2' C1' H5' C2' H2'' H3' H5'' O4' O3' C3' C4' C5' O5' O5'' P O1P O2P", mol=pdb).result
 
         if nuc.data.size == 0:
             return df
@@ -977,7 +977,7 @@ class IEDA:
         """
         pdb_map = pdb.__copy__()
         
-        pdb_map.data.bfactors = np.zeros(pdb.natoms)
+        pdb_map.data.bfactors = np.zeros(pdb.data.size)
 
         df.columns = df.columns.astype(int)
         df.index =  df.index.astype(int)
