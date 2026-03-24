@@ -885,7 +885,7 @@ class IEDA:
             pd.DataFrame
                 DataFrame with nucleic bonds removed.
         """
-        nuc = Selection(selection="name H1' H2' C1' H5' C2' H2'' H3' H5'' O4' O3' C3' C4' C5' O5' O5'' P O1P O2P", mol=pdb).result
+        nuc = Selection(selection="nucleic", mol=pdb).result
 
         if nuc.data.size == 0:
             return df
