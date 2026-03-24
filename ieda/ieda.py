@@ -846,7 +846,7 @@ class IEDA:
         """
         pro = Selection(selection="protein", mol=pdb).result
         
-        if pro.natoms == 0:
+        if pro.data.size == 0:
             return df
         
         df_values = df.values.copy() 
