@@ -887,7 +887,7 @@ class IEDA:
         """
         nuc = Selection(selection="nucleic", mol=pdb).result
 
-        if nuc.natoms == 0:
+        if nuc.data.size == 0:
             return df
         
         df_values = df.values.copy() 
@@ -908,6 +908,7 @@ class IEDA:
 
         
         df.iloc[:, :] = df_values
+        
         return df
     
     def remove_intrachain(self, df:pd.DataFrame, pdb:PDB) -> pd.DataFrame:
