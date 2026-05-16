@@ -50,21 +50,17 @@ def intermolecular_eletron_density_two_selection(ao_ids_a:np.array, ao_ids_b:np.
     - This function is optimized using Numba for parallel execution.
     - The function assumes that the input arrays are correctly formatted and compatible in dimensions.
     """
-    result_comp_bader = .0
     result_comp_mulliken = .0
 
     for i in numba.prange(mo_coefficients.shape[0]):
         mo = mo_coefficients[i]
         tmp_comp_mulliken = .0
-        tmp_comp_bader = .0
         for ci in ao_ids_a:
             for cj in ao_ids_b:
-                tmp_comp_mulliken += abs(mo[ci] * mo[cj]) * abs(s_matrix[ci, cj])
-                tmp_comp_bader += (mo[ci]*mo[ci]) * (mo[cj]*mo[cj])
-        result_comp_bader += tmp_comp_bader
-        result_comp_mulliken += tmp_comp_mulliken 
+                tmp_comp_mulliken += (mo[ci] * mo[cj]) * s_matrix[ci, cj]
+        result_comp_mulliken += 2*tmp_comp_mulliken 
 
-    return result_comp_mulliken, result_comp_bader
+    return result_comp_mulliken
 
 
 @numba.njit(cache=True, parallel=True)
@@ -98,7 +94,6 @@ def matrix_intermolecular_eletron_density_numba(ats: np.array, ao_atomindex: np.
     """
     num_atoms = ats.size
     matrix_ied_m = np.zeros((num_atoms, num_atoms))
-    matrix_ied_b = np.zeros((num_atoms, num_atoms))
 
     for iat_a in numba.prange(num_atoms):
         at_a = ats[iat_a]
@@ -111,30 +106,26 @@ def matrix_intermolecular_eletron_density_numba(ats: np.array, ao_atomindex: np.
             #ao_ids_b = np.array([i for i, ao_id in enumerate(ao_atomindex) if ao_id == at_b])
             ao_ids_b = np.where(ao_atomindex == at_b)[0]
 
-            result_comp_bader = 0.0
             result_comp_mulliken = 0.0
             
             for i, mo in enumerate(mo_coefficients):
                 tmp_comp_mulliken = 0.0
-                tmp_comp_bader = 0.0
-                
+
                 for ci in ao_ids_a:
                     for cj in ao_ids_b:
                         """if ci == cj:
                             continue"""
-                        tmp_comp_mulliken += abs(mo[ci] * mo[cj]) * abs(s_matrix[ci, cj])
-                        tmp_comp_bader += (mo[ci] * mo[ci]) * (mo[cj] * mo[cj])
-                
-                result_comp_bader += tmp_comp_bader
-                result_comp_mulliken += tmp_comp_mulliken
+                        tmp_comp_mulliken += mo[ci] * mo[cj] * s_matrix[ci, cj]
+ 
+
+                result_comp_mulliken += 2*tmp_comp_mulliken
             
             # Symetric assignment
             matrix_ied_m[iat_a, iat_b] = result_comp_mulliken
             matrix_ied_m[iat_b, iat_a] = result_comp_mulliken
-            matrix_ied_b[iat_a, iat_b] = result_comp_bader
-            matrix_ied_b[iat_b, iat_a] = result_comp_bader
 
-    return matrix_ied_m, matrix_ied_b
+
+    return matrix_ied_m
 
 
 
@@ -175,7 +166,7 @@ def two_selection_type_ao(ao_ids_a:np.array, ao_ids_b:np.array, mo_coefficients:
         mo = mo_coefficients[i]
         for ci in ao_ids_a:
             for cj in ao_ids_b:
-                po = abs(mo[ci] * mo[cj]) * abs(s_matrix[ci, cj])
+                po = 2*(mo[ci] * mo[cj] * s_matrix[ci, cj])
                 resul[count] = np.array([i, po, ci, cj])
                 count += 1
 
@@ -223,9 +214,9 @@ def __kernel_ieda_two_sel(ao_ids_a, ao_ids_b, mo_coeffs, s_matrix, out_mulliken,
             for bj in range(n_ao_b):
                 cj = ao_ids_b[bj]
                 mo_cj = mo_coeffs[mo_idx, cj]
-                tmp_m += abs(mo_ci * mo_cj) * abs(s_matrix[ci, cj])
+                tmp_m += mo_ci * mo_cj * s_matrix[ci, cj]
                 tmp_b += mo_ci2 * (mo_cj * mo_cj)
-        partial_m += tmp_m
+        partial_m += 2*tmp_m
         partial_b += tmp_b
 
     # Reduce within block
@@ -416,11 +407,11 @@ def __kernel_ieda(n_atoms, n_mos, ao_index_flat, ao_start, ao_count, mo_coeffs, 
                 cj = ao_index_flat[start_j + aj_idx]
                 mo_cj = mo_coeffs[im, cj]
                 # Mulliken contribution:
-                tmp_m += abs(mo_ci * mo_cj) * abs(s_matrix[ci, cj])
+                tmp_m += mo_ci * mo_cj * s_matrix[ci, cj]
                 # OB contribution:
                 tmp_b += mo_ci2 * (mo_cj * mo_cj)
 
-        res_m += tmp_m
+        res_m += 2*tmp_m
         res_b += tmp_b 
 
     # flatten index

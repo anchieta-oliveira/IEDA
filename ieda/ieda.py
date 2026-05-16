@@ -61,7 +61,7 @@ class IEDA:
                 Smatrix:OverlapMatrix=OverlapMatrix,
                 gpu:bool=False, 
                 gpu_id:int = 0
-                ) -> tuple:
+                ) -> float:
         
         if aux != None:
             MOs = aux.get_MOs_objs()
@@ -114,11 +114,11 @@ class IEDA:
         ao_ids_b = np.array([i for i, ao_id in enumerate(ao_atomindex) if ao_id in ats_b])
 
         if gpu:
-            m, b = core.intermolecular_eletron_density_two_selection_gpu(ao_ids_a=ao_ids_a, ao_ids_b=ao_ids_b, mo_coefficients=mo_coefficients, s_matrix=s_matrix, gpu_id=gpu_id)
+            m = core.intermolecular_eletron_density_two_selection_gpu(ao_ids_a=ao_ids_a, ao_ids_b=ao_ids_b, mo_coefficients=mo_coefficients, s_matrix=s_matrix, gpu_id=gpu_id)
         else:
-            m, b = core.intermolecular_eletron_density_two_selection(ao_ids_a=ao_ids_a, ao_ids_b=ao_ids_b, mo_coefficients=mo_coefficients, s_matrix=s_matrix)
-        logging.info(f"IED by Mulliken: {m}\nIED by OB: {b}")
-        return (m, b)
+            m = core.intermolecular_eletron_density_two_selection(ao_ids_a=ao_ids_a, ao_ids_b=ao_ids_b, mo_coefficients=mo_coefficients, s_matrix=s_matrix)
+        logging.info(f"IED by Mulliken: {m}")
+        return m
     
 
     def matrix(self, pdb:PDB=PDB, aux=None, molden=None, orca_out=None, Smatrix:OverlapMatrix=OverlapMatrix, path_out:str=f"", out_format = "", gpu:bool=False, gpu_id:int = 0, write:bool=False) -> tuple:
@@ -206,32 +206,25 @@ class IEDA:
         s_matrix = np.array(s_matrix).astype(np.float64)
         
         if gpu:
-            mulliken_matrix, bader_matrix = core.matrix_intermolecular_eletron_density_numba_gpu(ats=list_ats, ao_atomindex=ao_atomindex, mo_coefficients=mo_coefficients, s_matrix=s_matrix, gpu_id=gpu_id)
+            mulliken_matrix = core.matrix_intermolecular_eletron_density_numba_gpu(ats=list_ats, ao_atomindex=ao_atomindex, mo_coefficients=mo_coefficients, s_matrix=s_matrix, gpu_id=gpu_id)
         
         else:
-            mulliken_matrix, bader_matrix = core.matrix_intermolecular_eletron_density_numba(ats=np.array(list_ats), ao_atomindex=ao_atomindex, mo_coefficients=mo_coefficients, s_matrix=s_matrix)
+            mulliken_matrix = core.matrix_intermolecular_eletron_density_numba(ats=np.array(list_ats), ao_atomindex=ao_atomindex, mo_coefficients=mo_coefficients, s_matrix=s_matrix)
 
         if write:
             if out_format == "npy": 
                 logging.info(f"{path_out}_matrix_IED_mulliken.npy...")
                 np.save(f"{path_out}_matrix_IED_mulliken.npy", mulliken_matrix)
 
-                logging.info(f"{path_out}_matrix_IED_OB.npy...")
-                np.save(f"{path_out}_matrix_IED_OB.npy", bader_matrix)
-
             elif out_format == "json":
                 resultado_m = self.__arrays_to_nested_dict(mulliken_matrix, list_ats)
-                resultado_b = self.__arrays_to_nested_dict(bader_matrix, list_ats)
 
                 with open(f"{path_out}_matrix_IED_mulliken.json", 'w') as arquivo_m:
                     logging.info(f"Writing .json Mulliken")
                     json.dump(resultado_m, arquivo_m, indent=2)
-                
-                with open(f"{path_out}_matrix_IED_OB.json", 'w') as arquivo_b:
-                    logging.info(f"Writing .json OB")
-                    json.dump(resultado_b, arquivo_b, indent=2)
 
-        return mulliken_matrix, bader_matrix
+
+        return mulliken_matrix
                 
 
     def __annotate_atom_ranges(self, pdb:PDB, ax=None, marks:list=[]):
