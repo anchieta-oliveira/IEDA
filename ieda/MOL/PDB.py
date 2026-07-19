@@ -608,7 +608,7 @@ class PDB(Mol):
 		self.data.xs, self.data.ys, self.data.zs = self.data.coordinates[:, 0], self.data.coordinates[:, 1], self.data.coordinates[:, 2]
 
 		for i, at in enumerate(self.atoms):
-			at.coordinates.x, at.coordinates.y, at.coordinates.z = self.coordinates[i] 
+			at.coordinates.x, at.coordinates.y, at.coordinates.z = self.data.coordinates[i] 
 
 
 	def move_center_to(self, center: tuple = (0, 0, 0)) -> None:
@@ -623,11 +623,11 @@ class PDB(Mol):
 
 		current_center = self.get_center()
 		translation_vector = np.array(center) - np.array(current_center)
-		self.coordinates += translation_vector
+		self.data.coordinates += translation_vector
 		self.data.xs, self.data.ys, self.data.zs = self.data.coordinates[:, 0], self.data.coordinates[:, 1], self.data.coordinates[:, 2]
 
 		for i, at in enumerate(self.atoms):
-			at.coordinates.x, at.coordinates.y, at.coordinates.z = self.coordinates[i] 
+			at.coordinates.x, at.coordinates.y, at.coordinates.z = self.data.coordinates[i] 
 
 	def __copy__(self):
 		''' Copy the PDB object.
