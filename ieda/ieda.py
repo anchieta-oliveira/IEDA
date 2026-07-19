@@ -24,7 +24,7 @@ Laboratory for Molecular Modeling and Dynamics
 Av. Carlos Chagas Filho 373 - CCS - bloco G1-19,
 Cidade Universitária - Rio de Janeiro, RJ, CEP: 21941-902
 E-mail address: anchieta.oliveira@biof.ufrj.br
-This project is licensed under Creative Commons license (CC-BY-4.0) (Ver qual)
+This project is licensed under the MIT License.
 '''
 
 # Classes
@@ -36,13 +36,11 @@ class IEDA:
         
 
     def __get_index_homo_lumo(self, MOs):
-        for mo in MOs:
+        for i, mo in enumerate(MOs):
             if mo.occupation == 0:
-                logging.info(f"HOMO: {mo.id-1} LUMO: {mo.id}")
-                id_list_homo = mo.id-2 # dois pq é a posição da lista 
-                id_list_lumo = mo.id-1 # para ajustar a posição da lista
-                break
-        return id_list_homo, id_list_lumo
+                logging.info(f"HOMO: {i-1} LUMO: {i}")
+                return i-1, i
+        return len(MOs)-1, len(MOs)
 
 
     def __arrays_to_nested_dict(self, matrix, ats):
@@ -92,9 +90,8 @@ class IEDA:
         elif orca_out != None:
             MOs = orca_out.MOs
             id_list_homo, id_list_lumo = self.__get_index_homo_lumo(MOs=MOs)
-            id_list_homo += 2; id_list_lumo += 1 # Por que a contagem e MOs é do zero
-            mo_coefficients = np.array([mo.coefficients for mo in MOs[:id_list_homo]], dtype=np.float64)
-            ao_atomindex = orca_out.ao_atomindex + 1 # No orca começa a contagem de 0 e nos demais por 1; O codigo foi montado para trablhar iniciando de 1. 
+            mo_coefficients = np.array([mo.coefficients for mo in MOs[:id_list_homo+1]], dtype=np.float64)
+            ao_atomindex = orca_out.ao_atomindex + 1 # ORCA usa índice 0; o código espera 1
             s_matrix = orca_out.overlap_matrix
 
             del orca_out
@@ -193,9 +190,8 @@ class IEDA:
         elif orca_out != None:
             MOs = orca_out.MOs
             id_list_homo, id_list_lumo = self.__get_index_homo_lumo(MOs=MOs)
-            id_list_homo += 2; id_list_lumo += 1 # Por que a contagem e MOs é do zero
-            mo_coefficients = np.array([mo.coefficients for mo in MOs[:id_list_homo]], dtype=np.float64)
-            ao_atomindex = orca_out.ao_atomindex + 1 # No orca começa a contagem de 0 e nos demais por 1; O codigo foi montado para trablhar iniciando de 1. 
+            mo_coefficients = np.array([mo.coefficients for mo in MOs[:id_list_homo+1]], dtype=np.float64)
+            ao_atomindex = orca_out.ao_atomindex + 1 # ORCA usa índice 0; o código espera 1
             s_matrix = orca_out.overlap_matrix
 
             del orca_out

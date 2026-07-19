@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from ieda.ieda import IED
+from ieda.ieda import IEDA
 from ieda.MOL.PDB import PDB
 from ieda.QM.molden import Molden
 from ieda.QM.overlap_matrix import OverlapMatrix
@@ -53,7 +53,7 @@ def benchmark_compute(df_label, moldens, smats, pdbs, n_runs=1):
             times = []
             for run in range(n_runs):
                 print(f"   🔹 {device} | Run {run+1}/{n_runs} ...")
-                ieda = IED()
+                ieda = IEDA()
                 t0 = time.perf_counter()
                 ieda.matrix(
                     pdb=pdb,

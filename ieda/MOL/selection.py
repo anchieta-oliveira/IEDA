@@ -39,7 +39,7 @@ Laboratory for Molecular Modeling and Dynamics
 Av. Carlos Chagas Filho 373 - CCS - bloco G1-19,
 Cidade Universitária - Rio de Janeiro, RJ, CEP: 21941-902
 E-mail address: anchieta.oliveira@biof.ufrj.br
-This project is licensed under Creative Commons license (CC-BY-4.0) (Ver qual)
+This project is licensed under the MIT License.
 '''
 
 # Classes
@@ -321,7 +321,7 @@ class Selection:
 		elif beta[0] == "<=":
 			return data[data.bfactors <= float(beta[1])]
 		elif beta[0] == "=" or  beta[0] == "==":
-			return data[data.bfactors <= float(beta[1])]
+			return data[data.bfactors == float(beta[1])]
 		else:
 			raise ValueError("Invalid operator for beta factor selection.")	
 	
@@ -349,13 +349,13 @@ class Selection:
 		if occupancys[0] == ">":
 			return data[data.occupancys > float(occupancys[1])]
 		elif occupancys[0] == "<":
-			return data[data.bfactors < float(occupancys[1])]
+			return data[data.occupancys < float(occupancys[1])]
 		elif occupancys[0] == ">=":
-			return data[data.bfactors >= float(occupancys[1])]
+			return data[data.occupancys >= float(occupancys[1])]
 		elif occupancys[0] == "<=":
-			return data[data.bfactors <= float(occupancys[1])]
+			return data[data.occupancys <= float(occupancys[1])]
 		elif occupancys[0] == "=" or  occupancys[0] == "==":
-			return data[data.bfactors <= float(occupancys[1])]
+			return data[data.occupancys == float(occupancys[1])]
 		else:
 			raise ValueError("Invalid operator for occupancy selection.")
 

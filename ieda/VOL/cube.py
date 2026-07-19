@@ -68,7 +68,7 @@ Laboratory for Molecular Modeling and Dynamics
 Av. Carlos Chagas Filho 373 - CCS - bloco G1-19,
 Cidade Universitária - Rio de Janeiro, RJ, CEP: 21941-902
 E-mail address: anchieta.oliveira@biof.ufrj.br
-This project is licensed under Creative Commons license (CC-BY-4.0) (Ver qual)
+This project is licensed under the MIT License.
 '''
 
 
@@ -449,7 +449,7 @@ class Cube:
                 mask = sel_values < isov
                 sel_values[~mask] = 0 
             if "=" in operation:
-                mask = sel_values = isov
+                mask = sel_values == isov
                 sel_values[~mask] = 0 
             else:
                 raise ValueError("Invalid operation. Choose '>', '<' or '='.")

@@ -66,7 +66,7 @@ Laboratory for Molecular Modeling and Dynamics
 Av. Carlos Chagas Filho 373 - CCS - bloco G1-19,
 Cidade Universitária - Rio de Janeiro, RJ, CEP: 21941-902
 E-mail address: anchieta.oliveira@biof.ufrj.br
-This project is licensed under Creative Commons license (CC-BY-4.0) (Ver qual)
+This project is licensed under the MIT License.
 '''
 
 # Classes
@@ -588,18 +588,6 @@ class PDB(Mol):
 
 		logging.debug(f"PDB file successfully written to '{path}'.")	
 
-	def updata_atoms(self) -> None:
-		''' Update the atoms list. '''
-		logging.debug("Updating atoms list from structured data array.")
-		logging.debug(f"It metod is deprecated and will be removed in future versions.")
-
-		self.atoms = [Atom(
-							id=e.inid, index=e.serials, name=e.names, altloc=e.altlocs, 
-					  		resname=e.resnames, chain=e.chainids, resid=e.resseq, coordinates=(e.xs, e.ys, e.zs),
-							occupancy=e.occupancys, bfactor=e.bfactors, segment=e.segids, element=e.elements, charge=e.charges
-							) 
-							for e in self.data]	
-		
 	def rotate(self, angle: float, axis: str) -> None:
 		''' Rotate the PDB object.
 
