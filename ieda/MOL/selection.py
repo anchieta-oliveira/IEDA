@@ -44,6 +44,7 @@ This project is licensed under the MIT License.
 
 # Classes
 ###############################################################################
+
 class Selection:
 	""" Class to store and manipulate data from selections.
 
@@ -542,7 +543,7 @@ class Selection:
 				d = {k: []}
 				i += 1
 
-				while ((not k.strip() in self.functions.keys()) or k.strip()[0] != "(") and i <= n and sp[i].strip() !=	"and" and sp[i].strip() != "or":
+				while i <= n and sp[i].strip() not in ("and", "or"):
 					k = sp[i].strip()
 					d[list(d.keys())[0]].append(k.strip())
 					i += 1
@@ -558,7 +559,7 @@ class Selection:
 				if k in list(self.functions.keys()):
 					d = {k: []}
 					i += 1
-					while ((not k.strip() in self.functions.keys()) or k.strip()[0] != "(") and i <= n:
+					while i <= n:
 						k = sp[i].strip()
 						if k[-1] == ")":
 							k = k[:-1]
@@ -569,7 +570,8 @@ class Selection:
 							d[list(d.keys())[0]].append(k)
 							i += 1
 					sels.append(d)
-			i += 1 
+			else:
+				i += 1
 
 		return sels
 
@@ -630,7 +632,7 @@ class Selection:
 			key = [*sel][0]
 
 			sel_data = np.concatenate((sel_data, self.functions[key](sel[key], self.mol.data)))
-			sel_data = np.sort(sel_data, order = 'inid')
+			sel_data = np.sort(sel_data, order = 'inid').view(np.recarray)
 
 			return sel_data
 
