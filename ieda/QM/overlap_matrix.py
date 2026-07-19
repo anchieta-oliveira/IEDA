@@ -1,5 +1,6 @@
 # Imports
 ###############################################################################
+import math
 import numpy as np
 from ieda.core import read_file
 from scipy.special import gamma, gammainc
@@ -29,42 +30,43 @@ class OverlapMatrix:
     self.matrix = matrix
 
   def read_from_multiwfn(self, path:str) -> list:
-    """with open(path, "r") as file:
-      lines = file.readlines()"""
-        
     text = read_file(path)
     lines = text.splitlines(True)
 
-    matrix = []
+    cols = {}
     matrix_lin = []
-    num_col = 0
+    init_col = 0
     for line in lines:
       line_split = line.split()
+      if not line_split:
+        continue
       if "*" in line:
          pass
       elif " \n" == line:
         break
-      elif line[:6] == "      ":
-        num_col = int(len(line_split))
+      elif len(line_split) == 1 and line[0] == " ":
         init_col = int(line_split[0])
-        for n in range(num_col):
-          matrix.append([])
-        
+        cols[init_col] = []
       else:
-        for id_col, v_col in enumerate(line_split[1:]):
-          matrix[init_col+id_col-1].append(float(v_col))
-          matrix_lin.append(float(v_col))
-    self.liner = matrix_lin
-    self.lower_half_triangle = matrix
+        for v in line_split[1:]:
+          cols[init_col].append(float(v))
+          matrix_lin.append(float(v))
 
-    n = len(matrix)
-    # Inicialize uma matriz completa com zeros
-    self.matrix  = [[0] * n for _ in range(n)]
+    n = max(cols.keys()) if cols else 0
+    lower = [[] for _ in range(n)]
+    for col, values in cols.items():
+      for row_idx, val in enumerate(values):
+        lower[row_idx].append(val)
+
+    self.matrix = [[0.0] * n for _ in range(n)]
     for i in range(n):
-        for j in range(n - i):
-            self.matrix[i][i + j] = self.lower_half_triangle[i][j]
-            self.matrix[i + j][i] = self.lower_half_triangle[i][j]
+      for j, val in enumerate(lower[i]):
+        self.matrix[i][i + j] = val
+        if i + j != i:
+          self.matrix[i + j][i] = val
 
+    self.lower_half_triangle = lower
+    self.liner = matrix_lin
     return self.matrix 
 
 # Gaussian Overlap Utilities
@@ -72,7 +74,7 @@ class OverlapMatrix:
 def normalization_factor(alpha, l, m, n):
     N = (2 * alpha / np.pi)**(3/4)
     N *= (4 * alpha)**((l + m + n) / 2)
-    N /= np.sqrt(np.math.factorial(l) * np.math.factorial(m) * np.math.factorial(n))
+    N /= math.sqrt(math.factorial(l) * math.factorial(m) * math.factorial(n))
     return N
 
 
