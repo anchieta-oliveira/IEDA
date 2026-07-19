@@ -144,7 +144,7 @@ Occup= mo_occupation_number_1
 ao_number_1 mo_coefficient_1</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="ieda.QM.MO.MO">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">ieda.QM.MO.</span></span><span class="sig-name descname"><span class="pre">MO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.QM.MO.MO" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">ieda.QM.MO.</span></span><span class="sig-name descname"><span class="pre">MO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.QM.MO.MO" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 </dd></dl>
 
@@ -212,11 +212,7 @@ ao_number_1 mo_coefficient_1</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="ieda.QM.density_matrix.DensityMatrix.make_density">
 <span class="sig-name descname"><span class="pre">make_density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">MOs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nelec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.QM.density_matrix.DensityMatrix.make_density" title="Link to this definition"></a></dt>
-<dd><p>Não testado! Funciona mas não foi testado quando a validade.
-Returns the AO density from a set of MOs
-Arguments:
-mos – molecular orbitals</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ieda.QM.density_matrix.DensityMatrix.read_from_multiwfn">
@@ -293,6 +289,31 @@ lines = file.readlines()</p>
 </dd></dl>
 
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ieda.QM.overlap_matrix.boys_function">
+<span class="sig-prename descclassname"><span class="pre">ieda.QM.overlap_matrix.</span></span><span class="sig-name descname"><span class="pre">boys_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.QM.overlap_matrix.boys_function" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ieda.QM.overlap_matrix.gaussian_overlap">
+<span class="sig-prename descclassname"><span class="pre">ieda.QM.overlap_matrix.</span></span><span class="sig-name descname"><span class="pre">gaussian_overlap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alpha2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">B</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.QM.overlap_matrix.gaussian_overlap" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ieda.QM.overlap_matrix.generate_angular_momentum">
+<span class="sig-prename descclassname"><span class="pre">ieda.QM.overlap_matrix.</span></span><span class="sig-name descname"><span class="pre">generate_angular_momentum</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_max</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.QM.overlap_matrix.generate_angular_momentum" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ieda.QM.overlap_matrix.make_overlap_matrix">
+<span class="sig-prename descclassname"><span class="pre">ieda.QM.overlap_matrix.</span></span><span class="sig-name descname"><span class="pre">make_overlap_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">centers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exponents</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coefficients</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angular_momentum</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.QM.overlap_matrix.make_overlap_matrix" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ieda.QM.overlap_matrix.normalization_factor">
+<span class="sig-prename descclassname"><span class="pre">ieda.QM.overlap_matrix.</span></span><span class="sig-name descname"><span class="pre">normalization_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alpha</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.QM.overlap_matrix.normalization_factor" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 </section>
 <section id="module-ieda.QM">

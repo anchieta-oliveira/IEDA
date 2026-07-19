@@ -290,12 +290,6 @@ from PDB files.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="ieda.MOL.PDB.PDB.updata_atoms">
-<span class="sig-name descname"><span class="pre">updata_atoms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ieda.MOL.PDB.PDB.updata_atoms" title="Link to this definition"></a></dt>
-<dd><p>Update the atoms list.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="ieda.MOL.PDB.PDB.write">
 <span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ieda.MOL.PDB.PDB.write" title="Link to this definition"></a></dt>
 <dd><p>Write the PDB file content to a file.</p>
@@ -312,61 +306,8 @@ from PDB files.</p>
 </dd></dl>
 
 </section>
-<section id="module-ieda.MOL.PSF">
-<span id="ieda-mol-psf-module"></span><h2>ieda.MOL.PSF module<a class="headerlink" href="#module-ieda.MOL.PSF" title="Link to this heading"></a></h2>
-<p>Module to store and manipulate data from PDB files.</p>
-<p>This module contains the PDB class, which is used to store and manipulate
-data from PDB files. The class has methods to read, write, and show data
-from PDB files.</p>
-<section id="id1">
-<h3>Example:<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pdb</span> <span class="o">=</span> <span class="n">PDB</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pdb</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;example.pdb&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pdb</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</section>
-<dl class="py class">
-<dt class="sig sig-object py" id="ieda.MOL.PSF.PSF">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">ieda.MOL.PSF.</span></span><span class="sig-name descname"><span class="pre">PSF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.MOL.PSF.PSF" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Class to store and manipulate data from PSF files.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="ieda.MOL.PSF.PSF.text">
-<span class="sig-name descname"><span class="pre">text</span></span><a class="headerlink" href="#ieda.MOL.PSF.PSF.text" title="Link to this definition"></a></dt>
-<dd><p>PSF file content.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ieda.MOL.PSF.PSF.read">
-<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">recarray</span></span></span><a class="headerlink" href="#ieda.MOL.PSF.PSF.read" title="Link to this definition"></a></dt>
-<dd><p>Read a PDB file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path to the PDB file.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Structured array with the data.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.recarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ieda.MOL.PSF.PSF.update_data">
-<span class="sig-name descname"><span class="pre">update_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ieda.MOL.PSF.PSF.update_data" title="Link to this definition"></a></dt>
-<dd><p>Update the structured array with the data.</p>
-</dd></dl>
-
-</dd></dl>
-
+<section id="ieda-mol-psf-module">
+<h2>ieda.MOL.PSF module<a class="headerlink" href="#ieda-mol-psf-module" title="Link to this heading"></a></h2>
 </section>
 <section id="module-ieda.MOL.atom">
 <span id="ieda-mol-atom-module"></span><h2>ieda.MOL.atom module<a class="headerlink" href="#module-ieda.MOL.atom" title="Link to this heading"></a></h2>
@@ -2211,12 +2152,6 @@ Module to store and manipulate molecules.</p>
 <dd class="field-even"><p><strong>ValueError</strong> – If the software is invalid.</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="ieda.MOL.PDB.updata_atoms">
-<span class="sig-name descname"><span class="pre">updata_atoms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#ieda.MOL.PDB.updata_atoms" title="Link to this definition"></a></dt>
-<dd><p>Update the atoms list.</p>
 </dd></dl>
 
 <dl class="py method">
