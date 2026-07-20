@@ -114,9 +114,9 @@ class DX:
         self.zdel: float = .0
         self.values: np.array = np.array([], dtype = np.float64)
         self.coordinates: np.array = np.array([], dtype = np.float64)
-        self.xn: int = 0,
-        self.yn: int = 0,
-        self.zn: int = 0,
+        self.xn: int = 0
+        self.yn: int = 0
+        self.zn: int = 0
         self.gridpositions: list = []
         self.gridconnections: list = []
     
@@ -249,7 +249,7 @@ class DX:
                 dx_file.write(f"delta 0 {self.ydel} 0\n")
                 dx_file.write(f"delta 0 0 {self.zdel}\n")
                 dx_file.write(f"object 2 class gridconnections counts {self.xn} {self.yn} {self.zn}\n")
-                dx_file.write(f"object 3 class array type double rank 0 items [{self.xn * self.zn * self.yn}] data follows\n")
+                dx_file.write(f"object 3 class array type double rank 0 items [{self.xn * self.yn * self.zn}] data follows\n")
                 # Escreve os valores da grade no formato DX
                 i = 0
                 for v in self.values:
@@ -262,7 +262,7 @@ class DX:
                         dx_file.write(" ")
                 if i !=3:
                     dx_file.write("\n")
-                dx_file.write(f"object \"{filename}\" class field")
+                dx_file.write(f"object \"{self.name}\" class field")
             return True
         except Exception as e:
             logging.error(f"Error writing data to file: {e}")
@@ -286,7 +286,7 @@ class DX:
         dx_file += f"delta 0 {self.ydel} 0\n"
         dx_file += f"delta 0 0 {self.zdel}\n"
         dx_file += f"object 2 class gridconnections counts {self.xn} {self.yn} {self.zn}\n"
-        dx_file += f"object 3 class array type double rank 0 items [{self.xn * self.zn * self.yn}] data follows\n"
+        dx_file += f"object 3 class array type double rank 0 items [{self.xn * self.yn * self.zn}] data follows\n"
 
         # Write the grid values in DX format
         i = 0
@@ -303,7 +303,7 @@ class DX:
         if i !=3:
             dx_file += "\n"
 
-        dx_file += f"object \"name\" class field"
+        dx_file += f"object \"{self.name}\" class field"
 
         return dx_file
 
@@ -560,9 +560,11 @@ class DX:
             elif "<" in operation:
                 mask = sel_values < isov
                 sel_values[~mask] = 0 
-            if "=" in operation:
+            elif "=" in operation:
                 mask = sel_values == isov
                 sel_values[~mask] = 0 
+            else:
+                raise ValueError("Invalid operation. Choose '>', '<' or '='.")
             return sel_values
 
 
