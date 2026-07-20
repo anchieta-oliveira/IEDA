@@ -307,7 +307,7 @@ class Pipeline:
 
 	def plot_heatmap(self, ied:str="", norm:str="No", savefig:bool=True, plot:bool=False, annotate_res:bool=False, 
                           pdb:str="", marks:list=[], figsize="19 16", per_residue:bool=False, intramol:bool=True,
-                          pep_bond:bool=True, nucleic_bond:bool=True, intrachain:bool=True, figname:str= "", cmap:str="Blues"
+                          pep_bond:bool=True, nucleic_bond:bool=True, intrachain:bool=True, figname:str= "", cmap:str="bwr_r", extra:dict = {}
 						  ):
 		"""Plots a heatmap of the intermolecular electron density from a file.
 
@@ -371,7 +371,7 @@ class Pipeline:
 	def plot_heatmap_ref(self, ied:str, reference:str, pdb:str, reference_b:str="all",
 							ncols:int= 4, norm:str="No", savefig:bool=True, plot:bool=False, 
                           	figsize="19 16", cutoff:float=.5, intramol:bool=True, multi_file:bool=False,
-                          	pep_bond:bool="True", figname:str= "",nucleic_bond:bool=True, intrachain:bool=True, cmap:str="Blues", extra:dict = {}
+                          	pep_bond:bool="True", figname:str= "",nucleic_bond:bool=True, intrachain:bool=True, cmap:str="bwr_r", extra:dict = {}
 						  ):
 		"""Plots heatmaps of the intermolecular electron density from a file.
 

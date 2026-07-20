@@ -9,6 +9,7 @@ import ieda.core as core
 from ieda.MOL.PDB import PDB
 import matplotlib.pyplot as plt
 from collections import defaultdict
+import matplotlib.colors as mcolors
 from ieda.MOL.selection import Selection
 from ieda.QM.overlap_matrix import OverlapMatrix
 ###############################################################################
@@ -450,8 +451,8 @@ class IEDA:
         sns.set_theme()
         sns.set_theme("poster")
         f, ax = plt.subplots(figsize=figsize)
-        sns.color_palette("Blues", as_cmap=True)
-        sns.heatmap(df, annot=False, linewidths=.5, ax=ax, cmap=cmap)
+        norm = mcolors.TwoSlopeNorm(vcenter=0.0, vmin=df.min().min(), vmax=df.max().max())
+        sns.heatmap(df, annot=False, linewidths=.5, ax=ax, cmap=cmap, norm=norm)
 
         if annotate_res and not per_residue:
             self.__annotate_atom_ranges(pdb=pdb, ax=ax, marks=marks)
@@ -520,6 +521,7 @@ class IEDA:
             ax.set_ylabel('')
 
         #plt.tight_layout()
+        
         cbar_ax = fig.add_axes([0.94, 0.15, 0.02, 0.7])  # Posição da barra de cores
         fig.colorbar(axes[0, 0].collections[0], cax=cbar_ax)
         plt.tight_layout(rect=[0, 0, 0.9, 1])
@@ -537,7 +539,7 @@ class IEDA:
 
     def plot_heatmap_ref(self, df:pd.DataFrame, ref:str, ref_b:str="all", norm:str="No", savefig:bool=True, 
                               plot:bool=False, pdb:PDB=PDB, figsize=(39, 36), ncols=3, cutoff:float=.0, intramol:bool=True, 
-                              pep_bond:bool=False, nucleic_bond:bool=True, intrachain:bool=True, figname:str="", multi_file:bool=False, cmap:str="Blues"
+                              pep_bond:bool=False, nucleic_bond:bool=True, intrachain:bool=True, figname:str="", multi_file:bool=False, cmap:str="bwr_r"
                               ):
         """
         Plot heatmaps for residues based on a reference selection.
@@ -627,7 +629,9 @@ class IEDA:
             for df, name in zip(dfs, res_names):
                 sns.set_theme("poster")
                 f, ax = plt.subplots(figsize=figsize)
-                sns.heatmap(df, annot=False, linewidths=.5, ax=ax, cmap=cmap, cbar=True)
+                #norm = mcolors.PowerNorm(gamma=1, vmin=df.min().min(), vmax=df.max().max())
+                norm = mcolors.TwoSlopeNorm(vcenter=0.0, vmin=df.min().min(), vmax=df.max().max())
+                sns.heatmap(df, annot=False, linewidths=.5, ax=ax, cmap=cmap, cbar=True,  norm=norm)
                 ax.set_title(name)
                 ax.set_ylabel(ref)
                 if figname == "":
