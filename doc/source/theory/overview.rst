@@ -44,22 +44,11 @@ For a general case, two molecules can be represented as a set of electrons assoc
 
 .. math::
 
-    IED(A,B) = \sum_{i}^{MO_{occ}} \sum_{r \in A} \sum_{s \in B}
-    \left| c_{ir,k} \, c_{is,l} \right| S_{r,s}
+    \mathrm{IED}_{AB}^{\mathrm{M}} = 2 \sum_{i}^{\mathrm{MO}_{\mathrm{occ}}} \sum_{r \in A} \sum_{s \in B} c_{ri}\,c_{si}\,S_{rs}.
 
-being the sum of each MO, considering only the MOs occupied (:math:`MO_{occ}`) by electrons.
-
-For each MO, the electronic density between the atoms of molecule A and B is calculated using Mulliken's population analysis :sup:`1`, expressed as the sum of the product modulus between the coefficient of the r orbital belonging to A and the coefficient of the s orbital belonging to B, multiplied by the overlap integral :math:`S` of the r and s atomic orbitals.
-
-Another strategy for probing intermolecular electronic interactions is formulated at the orbital level. In this approach, an orbital-based method constructed from orbital coefficients is introduced to quantify the electronic co-occupation between non-covalently bonded molecular fragments, providing an alternative population-level perspective to the Mulliken-based analysis.
-
-Thus, by representing the electronic population at the orbital level through :math:`|c_i|^2`, where :math:`c_i` is the coefficient in Equation (2), one can quantify the electronic density between two non-covalently bonded molecules, represented by two sets of atoms A and B, corresponding to each molecule, with:
-
-.. math::
-
-    IED(A,B) = \sum_{i}^{MO_{occ}} \sum_{r \in A} \sum_{s \in B}
-    c_{ir,k}^{2} \, c_{is,l}^{2}
-
+where the summation runs over all occupied molecular orbitals (:math:`\mathrm{MO}_{\mathrm{occ}}`). For each occupied molecular orbital, the intermolecular electron density is obtained from the product 
+of the coefficients of atomic orbital :math:`r` belonging to molecule :math:`A` and atomic orbital :math:`s` belonging to molecule :math:`B`, weighted by the corresponding overlap integral :math:`S_{rs}`. 
+The prefactor of 2 accounts for doubly occupied molecular orbitals.
 
 References
 ----------
