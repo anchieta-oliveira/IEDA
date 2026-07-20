@@ -23,24 +23,22 @@ This project is licensed under the MIT License.
 # Classes
 ###############################################################################
 class GTO: 
-	#A ideia é fazer classes para AO, MO, GTO, Atoms (já existe) e conectar todas pelo index do atomo
 	def __init__(self, title="", 
 			  	atom_number:int=0, 
-				shell_label:list=[], 
-				number_of_primitives:list=[], 
-				exponent_primitive:list=[], 
-				contraction_coefficient:list=[]):
+				shell_label=None, 
+				number_of_primitives=None, 
+				exponent_primitive=None, 
+				contraction_coefficient=None):
 		
-		self.title:str = ""
+		self.title:str = title
 		self.atom_number:int = atom_number
-		self.shell_label:list = shell_label
-		self.number_of_primitives:list = number_of_primitives
-		self.exponent_primitive:list = exponent_primitive 
-		self.contraction_coefficient:list = contraction_coefficient
+		self.shell_label:list = shell_label if shell_label is not None else []
+		self.number_of_primitives:list = number_of_primitives if number_of_primitives is not None else []
+		self.exponent_primitive:list = exponent_primitive if exponent_primitive is not None else []
+		self.contraction_coefficient:list = contraction_coefficient if contraction_coefficient is not None else []
 
 
 	def copy(self):
-        # Cria uma cópia da instância atual
 		return GTO(
             title=self.title,
             atom_number=self.atom_number,
@@ -51,7 +49,6 @@ class GTO:
         )
 	
 	def clear(self):
-        # Limpa os atributos da instância atual
 		self.title = ""
 		self.atom_number = 0
 		self.shell_label.clear()
@@ -60,7 +57,6 @@ class GTO:
 		self.contraction_coefficient.clear()
 
 	def delete(self):
-        # Deleta a instância atual
 		del self
 
 	
