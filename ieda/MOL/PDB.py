@@ -124,10 +124,10 @@ class PDB(Mol):
 			Converted float.
 		'''
 
-		if any(not c.isdigit() for c in s) or '' == s:
-			return .0
-		else:
+		try:
 			return float(s)
+		except ValueError:
+			return .0
 
 	def remark_index(self) -> None:
 		''' Remark the atom indexes. '''
@@ -356,7 +356,7 @@ class PDB(Mol):
 					
 					residue_index = int(line[22:26].strip())
 					resseq.append(residue_index)
-					if residue_index != resseq[i-1]:  
+					if i > 0 and residue_index != resseq[i-1]:  
 						rinid += 1
 
 					resinid.append(rinid)
