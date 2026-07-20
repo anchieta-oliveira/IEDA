@@ -152,8 +152,8 @@ class Cube:
         self.zdel: float = .0
         self.values: np.array = np.array([], dtype = np.float64)
         self.coordinates: np.array = np.array([], dtype = np.float64)
-        self.xn: int = 0,
-        self.yn: int = 0,
+        self.xn: int = 0
+        self.yn: int = 0
         self.zn: int = 0
     
     def read(self, path: str) -> None:
@@ -448,7 +448,7 @@ class Cube:
             elif "<" in operation:
                 mask = sel_values < isov
                 sel_values[~mask] = 0 
-            if "=" in operation:
+            elif "=" in operation:
                 mask = sel_values == isov
                 sel_values[~mask] = 0 
             else:
