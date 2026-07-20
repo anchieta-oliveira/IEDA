@@ -36,7 +36,8 @@ class OrcaOut:
 		self.ao_atomindex:np.array = np.array([])
 		self.atom_symtype:list = []
 		self.num_electrons:int = 0
-		self.dipole_debye:float = ""
+		self.num_shells:int = 0
+		self.dipole_debye:float = 0.0
 		self.number_scf_cycles:int = 0
 		self.overlap_matrix:np.array = np.array([], dtype=np.float64)
 		self.density_matrix:np.array = np.array([], dtype=np.float64)
@@ -207,7 +208,10 @@ class OrcaOut:
 					match = re.search(r'Number of basis functions\s+\.*\s+(\d+)', self.shark_integral_package)
 					self.number_basis = int(match.group(1))
 					match = re.search(r'Number of shells\s+\.*\s+(\d+)', self.shark_integral_package)
-					self.num_electrons = int(match.group(1))
+					self.num_shells = int(match.group(1))
+					match = re.search(r'Number of electrons\s+\.*\s+(\d+)', self.shark_integral_package)
+					if match:
+						self.num_electrons = int(match.group(1))
 					shark_integral_package = False
 					# Atualizar o numero de Basis se for CC
 					if cc_method:
