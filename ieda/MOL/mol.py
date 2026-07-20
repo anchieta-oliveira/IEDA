@@ -114,8 +114,8 @@ class Mol(ABC):
 		data : np.recarray
 			Structured array containing the Mol data.
 		'''
-		self.natoms = self.data.inid.size 
 		self.data = data
+		self.natoms = self.data.inid.size 
 
 	def set_name(self, name: str) -> None:
 		''' Set the PDB name.
