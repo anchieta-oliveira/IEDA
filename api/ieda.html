@@ -69,8 +69,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#module-ieda.core">ieda.core module</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#ieda.core.intermolecular_eletron_density_two_selection"><code class="docutils literal notranslate"><span class="pre">intermolecular_eletron_density_two_selection()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ieda.core.intermolecular_eletron_density_two_selection_gpu"><code class="docutils literal notranslate"><span class="pre">intermolecular_eletron_density_two_selection_gpu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ieda.core.iter_text_file"><code class="docutils literal notranslate"><span class="pre">iter_text_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ieda.core.matrix_intermolecular_eletron_density_numba"><code class="docutils literal notranslate"><span class="pre">matrix_intermolecular_eletron_density_numba()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ieda.core.matrix_intermolecular_eletron_density_numba_gpu"><code class="docutils literal notranslate"><span class="pre">matrix_intermolecular_eletron_density_numba_gpu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ieda.core.open_text_file"><code class="docutils literal notranslate"><span class="pre">open_text_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ieda.core.read_file"><code class="docutils literal notranslate"><span class="pre">read_file()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#ieda.core.two_selection_type_ao"><code class="docutils literal notranslate"><span class="pre">two_selection_type_ao()</span></code></a></li>
 </ul>
@@ -399,6 +401,7 @@
 <li class="toctree-l4"><a class="reference internal" href="ieda.QM.html#ieda.QM.aux.AUX.parse_Pmatrix"><code class="docutils literal notranslate"><span class="pre">AUX.parse_Pmatrix()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="ieda.QM.html#ieda.QM.aux.AUX.parse_Smatrix"><code class="docutils literal notranslate"><span class="pre">AUX.parse_Smatrix()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="ieda.QM.html#ieda.QM.aux.AUX.read_file"><code class="docutils literal notranslate"><span class="pre">AUX.read_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ieda.QM.html#ieda.QM.aux.AUX.read_ieda_data"><code class="docutils literal notranslate"><span class="pre">AUX.read_ieda_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="ieda.QM.html#ieda.QM.aux.AUX.to_molden"><code class="docutils literal notranslate"><span class="pre">AUX.to_molden()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="ieda.QM.html#ieda.QM.aux.AUX.write"><code class="docutils literal notranslate"><span class="pre">AUX.write()</span></code></a></li>
 </ul>
@@ -454,6 +457,7 @@
 <li class="toctree-l4"><a class="reference internal" href="ieda.QM.html#ieda.QM.AUX.parse_Pmatrix"><code class="docutils literal notranslate"><span class="pre">AUX.parse_Pmatrix()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="ieda.QM.html#ieda.QM.AUX.parse_Smatrix"><code class="docutils literal notranslate"><span class="pre">AUX.parse_Smatrix()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="ieda.QM.html#ieda.QM.AUX.read_file"><code class="docutils literal notranslate"><span class="pre">AUX.read_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="ieda.QM.html#ieda.QM.AUX.read_ieda_data"><code class="docutils literal notranslate"><span class="pre">AUX.read_ieda_data()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="ieda.QM.html#ieda.QM.AUX.to_molden"><code class="docutils literal notranslate"><span class="pre">AUX.to_molden()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="ieda.QM.html#ieda.QM.AUX.write"><code class="docutils literal notranslate"><span class="pre">AUX.write()</span></code></a></li>
 </ul>
@@ -646,31 +650,7 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="ieda.core.intermolecular_eletron_density_two_selection">
 <span class="sig-prename descclassname"><span class="pre">ieda.core.</span></span><span class="sig-name descname"><span class="pre">intermolecular_eletron_density_two_selection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ao_ids_a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ao_ids_b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mo_coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.core.intermolecular_eletron_density_two_selection" title="Link to this definition"></a></dt>
-<dd><p>Intermolecular Electron Density Analysis (IEDA) between two selections of atomic orbitals (AOs).
-This function computes the intermolecular electron density contributions using both Mulliken and OB methods.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ao_ids_a</strong> (<em>np.array</em>) – Array of indices for the first selection of atomic orbitals (AOs).</p></li>
-<li><p><strong>ao_ids_b</strong> (<em>np.array</em>) – Array of indices for the second selection of atomic orbitals (AOs).</p></li>
-<li><p><strong>mo_coefficients</strong> (<em>np.array</em>) – 2D array where each row corresponds to the coefficients of a molecular orbital (MO).</p></li>
-<li><p><strong>s_matrix</strong> (<em>np.array</em>) – Overlap matrix between atomic orbitals (AOs).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A tuple containing two float values:
-- The first value is the Mulliken contribution to the intermolecular electron density.
-- The second value is the OB contribution to the intermolecular electron density.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>This function is optimized using Numba for parallel execution.</p></li>
-<li><p>The function assumes that the input arrays are correctly formatted and compatible in dimensions.</p></li>
-</ul>
+<dd><p>Compute IED between two AO selections using the input floating-point type.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -707,35 +687,15 @@ leveraging CUDA for parallel computation.
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="ieda.core.iter_text_file">
+<span class="sig-prename descclassname"><span class="pre">ieda.core.</span></span><span class="sig-name descname"><span class="pre">iter_text_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.core.iter_text_file" title="Link to this definition"></a></dt>
+<dd><p>Yield text lines while keeping the underlying plain or ZIP file open.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="ieda.core.matrix_intermolecular_eletron_density_numba">
 <span class="sig-prename descclassname"><span class="pre">ieda.core.</span></span><span class="sig-name descname"><span class="pre">matrix_intermolecular_eletron_density_numba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ats</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ao_atomindex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mo_coefficients</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.core.matrix_intermolecular_eletron_density_numba" title="Link to this definition"></a></dt>
-<dd><p>Compute the intermolecular electron density matrix using Mulliken and OB methods.
-This function calculates the intermolecular electron density contributions for each pair of atoms
-based on their associated atomic orbitals (AOs) and molecular orbital (MO) coefficients using Numba for optimization.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>ats</strong> (<em>np.array</em>) – Array of atom indices.</p></li>
-<li><p><strong>ao_atomindex</strong> (<em>np.array</em>) – Array mapping each atomic orbital (AO) to its corresponding atom index.</p></li>
-<li><p><strong>mo_coefficients</strong> (<em>np.array</em>) – 2D array where each row corresponds to the coefficients of a molecular orbital (MO).</p></li>
-<li><p><strong>s_matrix</strong> (<em>np.array</em>) – Overlap matrix between atomic orbitals (AOs).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A tuple containing two 2D numpy arrays:
-- The first array is the Mulliken intermolecular electron density matrix.
-- The second array is the OB intermolecular electron density matrix.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<ul class="simple">
-<li><p>This function is optimized using Numba for parallel execution.</p></li>
-<li><p>The function assumes that the input arrays are correctly formatted and compatible in dimensions.</p></li>
-<li><p>The resulting matrices are symmetric, and only the upper triangular part is computed directly.</p></li>
-</ul>
+<dd><p>Compute the IED matrix while constructing each atom’s AO list only once.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -769,6 +729,11 @@ based on their associated atomic orbitals (AOs) and molecular orbital (MO) coeff
 <li><p>The function assumes that the input arrays are correctly formatted and compatible in dimensions.</p></li>
 </ul>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ieda.core.open_text_file">
+<span class="sig-prename descclassname"><span class="pre">ieda.core.</span></span><span class="sig-name descname"><span class="pre">open_text_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ieda.core.open_text_file" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="ieda.core.read_file">
@@ -961,7 +926,7 @@ If the minimum and maximum values are equal, the DataFrame is filled with zeros 
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ied</span> <span class="o">=</span> <span class="n">IED</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">normalized_df</span> <span class="o">=</span> <span class="n">ied</span><span class="o">.</span><span class="n">normalize_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">type_norm</span><span class="o">=</span><span class="s2">&quot;MinMaxLog&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normalized_df</span> <span class="o">=</span> <span class="n">ied</span><span class="o">.</span><span class="n">normalize_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">type_norm</span><span class="o">=</span><span class="s2">"MinMaxLog"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1128,7 +1093,7 @@ The DataFrame will be stored in the <cite>self.df</cite> attribute.
 The path to the JSON file will be stored in the <cite>self.path_ied</cite> attribute.</p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ied</span> <span class="o">=</span> <span class="n">IED</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">ied</span><span class="o">.</span><span class="n">read_json_to_df</span><span class="p">(</span><span class="s2">&quot;path/to/matrix.json&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">ied</span><span class="o">.</span><span class="n">read_json_to_df</span><span class="p">(</span><span class="s2">"path/to/matrix.json"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="go">(100, 100)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
@@ -1167,7 +1132,7 @@ The DataFrame will be stored in the <cite>self.df</cite> attribute.
 The path to the numpy file will be stored in the <cite>self.path_npy</cite> attribute.</p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ieda</span> <span class="o">=</span> <span class="n">IEDA</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">ied</span><span class="o">.</span><span class="n">read_npy_to_df</span><span class="p">(</span><span class="s2">&quot;path/to/matrix.npy&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">ied</span><span class="o">.</span><span class="n">read_npy_to_df</span><span class="p">(</span><span class="s2">"path/to/matrix.npy"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="go">(100, 100)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
@@ -1651,7 +1616,7 @@ If the minimum and maximum values are equal, the DataFrame is filled with zeros 
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ied</span> <span class="o">=</span> <span class="n">IED</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">normalized_df</span> <span class="o">=</span> <span class="n">ied</span><span class="o">.</span><span class="n">normalize_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">type_norm</span><span class="o">=</span><span class="s2">&quot;MinMaxLog&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normalized_df</span> <span class="o">=</span> <span class="n">ied</span><span class="o">.</span><span class="n">normalize_dataframe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">type_norm</span><span class="o">=</span><span class="s2">"MinMaxLog"</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1818,7 +1783,7 @@ The DataFrame will be stored in the <cite>self.df</cite> attribute.
 The path to the JSON file will be stored in the <cite>self.path_ied</cite> attribute.</p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ied</span> <span class="o">=</span> <span class="n">IED</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">ied</span><span class="o">.</span><span class="n">read_json_to_df</span><span class="p">(</span><span class="s2">&quot;path/to/matrix.json&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">ied</span><span class="o">.</span><span class="n">read_json_to_df</span><span class="p">(</span><span class="s2">"path/to/matrix.json"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="go">(100, 100)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
@@ -1857,7 +1822,7 @@ The DataFrame will be stored in the <cite>self.df</cite> attribute.
 The path to the numpy file will be stored in the <cite>self.path_npy</cite> attribute.</p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ieda</span> <span class="o">=</span> <span class="n">IEDA</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">ied</span><span class="o">.</span><span class="n">read_npy_to_df</span><span class="p">(</span><span class="s2">&quot;path/to/matrix.npy&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">ied</span><span class="o">.</span><span class="n">read_npy_to_df</span><span class="p">(</span><span class="s2">"path/to/matrix.npy"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="go">(100, 100)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>

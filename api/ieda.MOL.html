@@ -117,7 +117,7 @@ from PDB files.</p>
 <section id="example">
 <h3>Example:<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pdb</span> <span class="o">=</span> <span class="n">PDB</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pdb</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;example.pdb&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pdb</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">'example.pdb'</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pdb</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1113,8 +1113,8 @@ Atom class, which is used to store and manipulate data from atoms.</p>
 <p>This module contains the Selection class, which is used to store and manipulate
 data from selections. The class has methods to select data from a PDB file.</p>
 <p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">selection</span> <span class="o">=</span> <span class="n">Selection</span><span class="p">(</span><span class="s1">&#39;resid 1 to 10&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">selection</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">&#39;selection.pdb&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">selection</span> <span class="o">=</span> <span class="n">Selection</span><span class="p">(</span><span class="s1">'resid 1 to 10'</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">selection</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s1">'selection.pdb'</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py class">
@@ -1583,10 +1583,10 @@ XYZ files. The data is stored in a structured array, which can be accessed
 using the get_text method.</p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">xyz</span> <span class="o">=</span> <span class="n">XYZ</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xyz</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;file.xyz&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xyz</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">"file.xyz"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">xyz</span><span class="o">.</span><span class="n">get_text</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xyz</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s2">&quot;vmd&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">xyz</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;file.xyz&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xyz</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="s2">"vmd"</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">xyz</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">"file.xyz"</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py class">
