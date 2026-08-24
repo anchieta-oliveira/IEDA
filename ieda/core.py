@@ -3,7 +3,9 @@
 import numba
 import logging
 import zipfile
+import io
 import numpy as np
+from contextlib import contextmanager
 from numba import cuda, float32, float64
 ###############################################################################
 
@@ -24,7 +26,7 @@ This project is licensed under the MIT License.
 # Functions
 ###############################################################################
 @numba.njit(cache=True, parallel=True)
-def intermolecular_eletron_density_two_selection(ao_ids_a:np.array, ao_ids_b:np.array, mo_coefficients:np.array, s_matrix:np.array):
+def _intermolecular_eletron_density_two_selection(ao_ids_a:np.array, ao_ids_b:np.array, mo_coefficients:np.array, s_matrix:np.array):
     """
     Intermolecular Electron Density Analysis (IEDA) between two selections of atomic orbitals (AOs).
     This function computes the intermolecular electron density contributions using both Mulliken and OB methods.
@@ -64,7 +66,34 @@ def intermolecular_eletron_density_two_selection(ao_ids_a:np.array, ao_ids_b:np.
 
 
 @numba.njit(cache=True, parallel=True)
-def matrix_intermolecular_eletron_density_numba(ats: np.array, ao_atomindex: np.array, mo_coefficients: np.array, s_matrix: np.array):
+def _intermolecular_eletron_density_two_selection_float32(ao_ids_a:np.array, ao_ids_b:np.array, mo_coefficients:np.array, s_matrix:np.array):
+    """Float32 CPU implementation for memory-efficient two-selection IED."""
+    result_comp_mulliken = np.float32(0.0)
+
+    for i in numba.prange(mo_coefficients.shape[0]):
+        mo = mo_coefficients[i]
+        tmp_comp_mulliken = np.float32(0.0)
+        for ci in ao_ids_a:
+            for cj in ao_ids_b:
+                tmp_comp_mulliken += mo[ci] * mo[cj] * s_matrix[ci, cj]
+        result_comp_mulliken += np.float32(2.0) * tmp_comp_mulliken
+
+    return result_comp_mulliken
+
+
+def intermolecular_eletron_density_two_selection(ao_ids_a:np.array, ao_ids_b:np.array, mo_coefficients:np.array, s_matrix:np.array):
+    """Compute IED between two AO selections using the input floating-point type."""
+    if mo_coefficients.dtype == np.float32 and s_matrix.dtype == np.float32:
+        return _intermolecular_eletron_density_two_selection_float32(
+            ao_ids_a, ao_ids_b, mo_coefficients, s_matrix
+        )
+    return _intermolecular_eletron_density_two_selection(
+        ao_ids_a, ao_ids_b, mo_coefficients, s_matrix
+    )
+
+
+@numba.njit(cache=True, parallel=True)
+def _matrix_intermolecular_eletron_density_numba(ao_index_flat: np.array, ao_start: np.array, ao_count: np.array, mo_coefficients: np.array, s_matrix: np.array):
     """
     Compute the intermolecular electron density matrix using Mulliken and OB methods.
     This function calculates the intermolecular electron density contributions for each pair of atoms
@@ -92,27 +121,20 @@ def matrix_intermolecular_eletron_density_numba(ats: np.array, ao_atomindex: np.
     - The function assumes that the input arrays are correctly formatted and compatible in dimensions.
     - The resulting matrices are symmetric, and only the upper triangular part is computed directly.
     """
-    num_atoms = ats.size
+    num_atoms = ao_start.size
     matrix_ied_m = np.zeros((num_atoms, num_atoms))
 
     for iat_a in numba.prange(num_atoms):
-        at_a = ats[iat_a]
-        #ao_ids_a = np.array([i for i, ao_id in enumerate(ao_atomindex) if ao_id == at_a])
-        ao_ids_a = np.where(ao_atomindex == at_a)[0]
-        
-
         for iat_b in range(iat_a, num_atoms):
-            at_b = ats[iat_b]
-            #ao_ids_b = np.array([i for i, ao_id in enumerate(ao_atomindex) if ao_id == at_b])
-            ao_ids_b = np.where(ao_atomindex == at_b)[0]
-
             result_comp_mulliken = 0.0
             
             for i, mo in enumerate(mo_coefficients):
                 tmp_comp_mulliken = 0.0
 
-                for ci in ao_ids_a:
-                    for cj in ao_ids_b:
+                for ai in range(ao_count[iat_a]):
+                    ci = ao_index_flat[ao_start[iat_a] + ai]
+                    for aj in range(ao_count[iat_b]):
+                        cj = ao_index_flat[ao_start[iat_b] + aj]
                         """if ci == cj:
                             continue"""
                         tmp_comp_mulliken += mo[ci] * mo[cj] * s_matrix[ci, cj]
@@ -126,6 +148,45 @@ def matrix_intermolecular_eletron_density_numba(ats: np.array, ao_atomindex: np.
 
 
     return matrix_ied_m
+
+
+@numba.njit(cache=True, parallel=True)
+def _matrix_intermolecular_eletron_density_numba_float32(ao_index_flat: np.array, ao_start: np.array, ao_count: np.array, mo_coefficients: np.array, s_matrix: np.array):
+    """Float32 CPU implementation used to reduce matrix-processing memory."""
+    num_atoms = ao_start.size
+    matrix_ied_m = np.zeros((num_atoms, num_atoms), dtype=np.float32)
+
+    for iat_a in numba.prange(num_atoms):
+        for iat_b in range(iat_a, num_atoms):
+            result_comp_mulliken = np.float32(0.0)
+
+            for mo in mo_coefficients:
+                tmp_comp_mulliken = np.float32(0.0)
+
+                for ai in range(ao_count[iat_a]):
+                    ci = ao_index_flat[ao_start[iat_a] + ai]
+                    for aj in range(ao_count[iat_b]):
+                        cj = ao_index_flat[ao_start[iat_b] + aj]
+                        tmp_comp_mulliken += mo[ci] * mo[cj] * s_matrix[ci, cj]
+
+                result_comp_mulliken += np.float32(2.0) * tmp_comp_mulliken
+
+            matrix_ied_m[iat_a, iat_b] = result_comp_mulliken
+            matrix_ied_m[iat_b, iat_a] = result_comp_mulliken
+
+    return matrix_ied_m
+
+
+def matrix_intermolecular_eletron_density_numba(ats: np.array, ao_atomindex: np.array, mo_coefficients: np.array, s_matrix: np.array):
+    """Compute the IED matrix while constructing each atom's AO list only once."""
+    ao_index_flat, ao_start, ao_count = __build_ao_index_flat(ao_atomindex, ats)
+    if mo_coefficients.dtype == np.float32 and s_matrix.dtype == np.float32:
+        return _matrix_intermolecular_eletron_density_numba_float32(
+            ao_index_flat, ao_start, ao_count, mo_coefficients, s_matrix
+        )
+    return _matrix_intermolecular_eletron_density_numba(
+        ao_index_flat, ao_start, ao_count, mo_coefficients, s_matrix
+    )
 
 
 
@@ -291,7 +352,7 @@ def intermolecular_eletron_density_two_selection_gpu(ao_ids_a:np.array, ao_ids_b
     __kernel_ieda_two_sel[blockspergrid, threadsperblock](
         d_ao_a, d_ao_b, d_mo, d_s, d_out_m, d_out_b
     )
-    cuda.synchronize() 
+    cuda.synchronize()
 
     return float(d_out_m.copy_to_host()[0]), float(d_out_b.copy_to_host()[0])
 
@@ -417,13 +478,15 @@ def __kernel_ieda(n_atoms, n_mos, ao_index_flat, ao_start, ao_count, mo_coeffs, 
     # flatten index
     idx_upper = i * n_atoms + j
     
-    cuda.atomic.add(matrix_m_out, idx_upper, res_m)
-    cuda.atomic.add(matrix_b_out, idx_upper, res_b)
+    # Each thread owns one upper-triangular pair, so atomics and pre-zeroed
+    # output buffers are unnecessary.
+    matrix_m_out[idx_upper] = res_m
+    matrix_b_out[idx_upper] = res_b
     # symmetric partner when i != j
     if i != j:
         idx_sym = j * n_atoms + i
-        cuda.atomic.add(matrix_m_out, idx_sym, res_m)
-        cuda.atomic.add(matrix_b_out, idx_sym, res_b)
+        matrix_m_out[idx_sym] = res_m
+        matrix_b_out[idx_sym] = res_b
 
 
 def matrix_intermolecular_eletron_density_numba_gpu(ats: np.array, ao_atomindex: np.array, mo_coefficients: np.array, s_matrix: np.array, dtype=np.float32, gpu_id: int = 0):
@@ -460,9 +523,9 @@ def matrix_intermolecular_eletron_density_numba_gpu(ats: np.array, ao_atomindex:
 
     ao_index_flat, ao_start, ao_count = __build_ao_index_flat(ao_atomindex, ats)
 
-    # cast to float32 for GPU
-    mo = mo_coefficients.astype(dtype)
-    s = s_matrix.astype(dtype)
+    # asarray reuses already compatible, contiguous host buffers.
+    mo = np.asarray(mo_coefficients, dtype=dtype, order='C')
+    s = np.asarray(s_matrix, dtype=dtype, order='C')
     
     n_atoms = ats.size
     n_mos = mo.shape[0]
@@ -490,12 +553,35 @@ def matrix_intermolecular_eletron_density_numba_gpu(ats: np.array, ao_atomindex:
         d_mo, d_s, d_mat_m, d_mat_b
     )
 
+    cuda.synchronize()
     mat_m = d_mat_m.copy_to_host().reshape((n_atoms, n_atoms))
     mat_b = d_mat_b.copy_to_host().reshape((n_atoms, n_atoms))
-    cuda.synchronize() 
 
     del d_ao_flat, d_ao_start, d_ao_count, d_mo, d_s, d_mat_m, d_mat_b
     return mat_m, mat_b
+
+
+# Open text files (including the first file in a ZIP archive) without loading
+# their complete contents into memory.
+@contextmanager
+def open_text_file(path):
+    if path.endswith(".zip"):
+        with zipfile.ZipFile(path, "r") as zf:
+            inner_name = next((name for name in zf.namelist() if not name.endswith("/")), None)
+            if inner_name is None:
+                raise ValueError(f"Null '{path}'.")
+            with zf.open(inner_name, "r") as raw_file:
+                with io.TextIOWrapper(raw_file, encoding="utf-8") as text_file:
+                    yield text_file
+    else:
+        with open(path, "r", encoding="utf-8") as text_file:
+            yield text_file
+
+
+def iter_text_file(path):
+    """Yield text lines while keeping the underlying plain or ZIP file open."""
+    with open_text_file(path) as text_file:
+        yield from text_file
 
 
 # Read file (txt or zip)

@@ -4,7 +4,7 @@ import re
 import numpy as np
 from ieda.QM.MO import MO
 from ieda.QM.GTO import GTO
-from ieda.core import read_file
+from ieda.core import iter_text_file
 ###############################################################################
 
 # License
@@ -81,11 +81,14 @@ class OrcaOut:
 
 	def read_file(self, path:str):
 		self.name = path.split("/")[-1].split(".")[-2]
-		"""with open(path, "r") as file:
-			lines = file.readlines()"""
-		
-		text = read_file(path)
-		lines = text.splitlines(True)
+		# CC outputs need the final basis count. Scan once instead of retaining
+		# the complete output merely to search it in reverse.
+		last_basis_functions_line = None
+		for line in iter_text_file(path):
+			if 'Basis functions' in line:
+				last_basis_functions_line = line
+
+		lines = iter_text_file(path)
 		
 		input_file = False
 		cartesian_coordinates_angstrom = False
@@ -215,7 +218,7 @@ class OrcaOut:
 					shark_integral_package = False
 					# Atualizar o numero de Basis se for CC
 					if cc_method:
-						self.number_basis = int(next((element for element in reversed(lines) if 'Basis functions' in element), None).split()[2])
+						self.number_basis = int(last_basis_functions_line.split()[2])
 			
 			# OVERLAP MATRIX
 			elif "OVERLAP MATRIX" in line:
@@ -282,7 +285,6 @@ class OrcaOut:
 					orbital_energies = False
 					if "MOLECULAR ORBITALS" in line:
 						molecular_orbitals = True
-						self.molecular_orbitals = np.zeros((self.number_basis, self.number_basis), dtype=np.float64)
 						lin = -4
 						b = 0
 						self.MOs = [MO() for _ in range(self.number_basis)]
@@ -381,14 +383,11 @@ class OrcaOut:
 			# TOTAL RUN TIME	
 			elif "TOTAL RUN TIME:" in line:
 				self.total_run_time = line
-				lines.clear()
 				
 
 
 
 
 					
-
-
 
 

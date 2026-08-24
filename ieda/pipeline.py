@@ -156,7 +156,7 @@ class Pipeline:
 			if not os.path.exists(qm):
 				raise FileNotFoundError(f"MOPAC output file not found at {qm}")		
 
-			aux = AUX(); aux.read_file(path=qm, no_density_matrix=False, no_atom_charges=False)
+			aux = AUX(); aux.read_ieda_data(path=qm)
 
 		elif qm_sof == "molden" or qm_sof == "xTB":
 			print("QM software: Molden or xTB")
@@ -272,7 +272,7 @@ class Pipeline:
 
 			logging.info("Reading MOPAC output file...")
 			aux = AUX()
-			aux.read_file(path=qm, no_density_matrix=False, no_atom_charges=False)
+			aux.read_ieda_data(path=qm)
 
 		elif qm_sof.strip() == "molden" or qm_sof == "xTB":
 			logging.info("QM software: Molden or xTB")
@@ -492,4 +492,3 @@ class Pipeline:
 			return False
 		else:
 			raise ValueError(f"Valor inválido para booleano: '{s}'")
-		

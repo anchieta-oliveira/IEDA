@@ -4,7 +4,7 @@ import numpy as np
 from ieda.QM.MO import MO
 from ieda.QM.GTO import GTO
 from ieda.MOL.atom import Atom
-from ieda.core import read_file
+from ieda.core import iter_text_file
 from ieda.QM.density_matrix import DensityMatrix
 from ieda.QM.overlap_matrix import OverlapMatrix
 ##############################################################################
@@ -79,6 +79,8 @@ class AUX:
 		self.lmo_vectors:list = []
 		self.density_matrix: list = []
 		self.lmo_energy_levels:list = []
+		self.ieda_mo_coefficients = None
+		self.ieda_s_matrix = None
 
 	
 
@@ -104,9 +106,8 @@ class AUX:
 						no_lmo_vectors = True
 						):
 		self.name = path.split("/")[-1].split(".")[-2]
-		text = read_file(path)
-		lines = text.splitlines(True)
-			
+		lines = iter_text_file(path)
+
 		start_input = False
 		geometry_opt = False
 		final_scf = False
@@ -206,7 +207,6 @@ class AUX:
 				
 			if geometry_opt:
 				pass
-			
 			if "Geometry optimization" in line:
 				geometry_opt = False
 				final_scf = True
@@ -301,7 +301,81 @@ class AUX:
 				if "END OF MOPAC FILE" in line:
 					break
 
-			
+	def read_ieda_data(self, path:str, dtype=np.float32):
+		"""Read only the MOPAC data required for an IED matrix.
+
+		The AUX layout writes MO vectors before occupations. A first streaming pass
+		finds the occupied-MO count; a second pass fills only those vectors.
+		"""
+		self.name = path.split("/")[-1].split(".")[-2]
+		n_ao = 0
+		occupancies = []
+		reading_occupancies = False
+
+		for line in iter_text_file(path):
+			if "ATOM_SYMTYPE[" in line:
+				n_ao = int(line.split("[")[1].split("]")[0])
+			elif "MOLECULAR_ORBITAL_OCCUPANCIES" in line:
+				reading_occupancies = True
+			elif reading_occupancies:
+				if "=" in line:
+					break
+				try:
+					occupancies.extend(float(value) for value in line.split())
+				except ValueError:
+					break
+
+		if n_ao == 0 or not occupancies:
+			raise ValueError("AUX file is missing AO or molecular-orbital data.")
+
+		n_occupied = next(
+			(index for index, occupation in enumerate(occupancies) if occupation == 0),
+			len(occupancies),
+		)
+		self.ao_atomindex = np.empty(n_ao, dtype=np.int32)
+		self.ieda_s_matrix = np.zeros((n_ao, n_ao), dtype=dtype)
+		self.ieda_mo_coefficients = np.empty((n_occupied, n_ao), dtype=dtype)
+
+		section = ""
+		ao_index = 0
+		overlap_row = 0
+		overlap_column = 0
+		mo_index = 0
+		for line in iter_text_file(path):
+			if "AO_ATOMINDEX" in line:
+				section = "ao"
+				continue
+			if "OVERLAP_MATRIX" in line:
+				section = "overlap"
+				continue
+			if "LMO_VECTORS" in line:
+				section = "mo"
+				continue
+			if section and "=" in line:
+				section = ""
+				continue
+			if not section or line.lstrip().startswith("#"):
+				continue
+
+			for value in line.split():
+				if section == "ao":
+					self.ao_atomindex[ao_index] = int(value)
+					ao_index += 1
+				elif section == "overlap":
+					overlap = dtype(value)
+					self.ieda_s_matrix[overlap_row, overlap_column] = overlap
+					self.ieda_s_matrix[overlap_column, overlap_row] = overlap
+					overlap_column += 1
+					if overlap_column > overlap_row:
+						overlap_row += 1
+						overlap_column = 0
+				elif section == "mo" and mo_index < self.ieda_mo_coefficients.size:
+					self.ieda_mo_coefficients.flat[mo_index] = dtype(value)
+					mo_index += 1
+
+		if ao_index != n_ao or overlap_row != n_ao or mo_index != self.ieda_mo_coefficients.size:
+			raise ValueError("AUX file has incomplete IED matrix data.")
+
 		
 	def parse_Smatrix(self, S:OverlapMatrix):
 		n = len(self.ao_atomindex) # Tamanho da matriz
@@ -538,9 +612,9 @@ class AUX:
 		return MOs
 
 
-	def get_S_objs(self) -> OverlapMatrix:
+	def get_S_objs(self, dtype=np.float64) -> OverlapMatrix:
 		n = len(self.atom_symtype) # Tamanho da matriz
-		matrix = [[0] * n for _ in range(n)]
+		matrix = np.zeros((n, n), dtype=dtype)
 		index = 0
 		for i in range(n):
 			for j in range(i + 1):
@@ -646,5 +720,3 @@ class AUX:
 			mo.spin = "Alpha"
 			i += 1 
 		return molden
-
-			
