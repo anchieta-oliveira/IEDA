@@ -265,7 +265,7 @@ class AUX:
 				if "SET_OF_MOS" in line:
 					self.set_of_mos = line.split("=")[1].strip("\n")
 				
-				if "LMO_VECTORS" in line and no_lmo_vectors:
+				if ("LMO_VECTORS" in line or "EIGENVECTORS" in line) and no_lmo_vectors:
 					lmo_vectors_tmp = True
 				elif lmo_vectors_tmp:
 					if not "=" in line:
@@ -280,7 +280,7 @@ class AUX:
 						self.density_matrix.extend(list(map(lambda dm: float(dm), line_split)))
 					else:
 						density_matrix_tmp = False
-				if "LMO_ENERGY_LEVELS" in line and no_lmo_energy_levels:
+				if ("LMO_ENERGY_LEVELS" in line or "EIGENVALUES" in line) and no_lmo_energy_levels:
 					lmo_energy_levels_tmp = True
 				elif lmo_energy_levels_tmp:
 					if not "=" in line:
