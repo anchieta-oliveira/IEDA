@@ -60,20 +60,25 @@ class IEDA:
                 Smatrix:OverlapMatrix=OverlapMatrix,
                 gpu:bool=False, 
                 gpu_id:int = 0
-                ) -> float:
+        ) -> float:
         
         if aux != None:
-            MOs = aux.get_MOs_objs()
-            id_list_homo, id_list_lumo = self.__get_index_homo_lumo(MOs=MOs)
-            mo_coefficients = np.array([mo.coefficients for mo in MOs[:id_list_homo+1]], dtype=np.float64)
-            ao_atomindex = aux.ao_atomindex 
-            s_matrix = aux.get_S_objs().matrix
+            if aux.ieda_mo_coefficients is not None:
+                mo_coefficients = aux.ieda_mo_coefficients
+                ao_atomindex = aux.ao_atomindex
+                s_matrix = aux.ieda_s_matrix
+            else:
+                MOs = aux.get_MOs_objs()
+                id_list_homo, id_list_lumo = self.__get_index_homo_lumo(MOs=MOs)
+                mo_coefficients = np.asarray([mo.coefficients for mo in MOs[:id_list_homo+1]], dtype=np.float32)
+                ao_atomindex = aux.ao_atomindex
+                s_matrix = aux.get_S_objs(dtype=np.float32).matrix
             del aux
             
         elif molden != None:
             MOs = molden.MOs
             id_list_homo, id_list_lumo =  self.__get_index_homo_lumo(MOs=MOs)
-            mo_coefficients = np.array([mo.coefficients for mo in MOs[:id_list_homo+1]], dtype=np.float64)
+            mo_coefficients = np.asarray([mo.coefficients for mo in MOs[:id_list_homo+1]], dtype=np.float32)
             ao_atomindex = molden.get_ao_atomindex() 
             
             logging.info(f"Nº AO index: {len(ao_atomindex)}")
@@ -91,14 +96,15 @@ class IEDA:
         elif orca_out != None:
             MOs = orca_out.MOs
             id_list_homo, id_list_lumo = self.__get_index_homo_lumo(MOs=MOs)
-            mo_coefficients = np.array([mo.coefficients for mo in MOs[:id_list_homo+1]], dtype=np.float64)
+            mo_coefficients = np.asarray([mo.coefficients for mo in MOs[:id_list_homo+1]], dtype=np.float32)
             ao_atomindex = orca_out.ao_atomindex + 1 # ORCA usa índice 0; o código espera 1
             s_matrix = orca_out.overlap_matrix
 
             del orca_out
                 
-        del MOs
-        s_matrix = np.array(s_matrix).astype(np.float64)
+        if 'MOs' in locals():
+            del MOs
+        s_matrix = np.asarray(s_matrix, dtype=np.float32, order='C')
 
         ats_a = Selection(selection=sel_a, mol=pdb).result.data.inid +1
         logging.debug(f"Index atoms sel_a '{sel_a}': {', '.join(map(str, ats_a))}")
@@ -108,8 +114,8 @@ class IEDA:
         logging.debug(f"Index atoms sel_b '{sel_b}': {', '.join(map(str, ats_b))}")
         
 
-        ao_ids_a = np.array([i for i, ao_id in enumerate(ao_atomindex) if ao_id in ats_a])
-        ao_ids_b = np.array([i for i, ao_id in enumerate(ao_atomindex) if ao_id in ats_b])
+        ao_ids_a = np.flatnonzero(np.isin(ao_atomindex, ats_a)).astype(np.int32)
+        ao_ids_b = np.flatnonzero(np.isin(ao_atomindex, ats_b)).astype(np.int32)
 
         if gpu:
             m = core.intermolecular_eletron_density_two_selection_gpu(ao_ids_a=ao_ids_a, ao_ids_b=ao_ids_b, mo_coefficients=mo_coefficients, s_matrix=s_matrix, gpu_id=gpu_id)
@@ -162,17 +168,22 @@ class IEDA:
             path_out = pdb.name
 
         if aux != None:
-            MOs = aux.get_MOs_objs()
-            id_list_homo, id_list_lumo = self.__get_index_homo_lumo(MOs=MOs)
-            mo_coefficients = np.array([mo.coefficients for mo in MOs[:id_list_homo+1]], dtype=np.float64)
-            ao_atomindex = np.array(aux.ao_atomindex)
-            s_matrix = aux.get_S_objs().matrix
+            if aux.ieda_mo_coefficients is not None:
+                mo_coefficients = aux.ieda_mo_coefficients
+                ao_atomindex = aux.ao_atomindex
+                s_matrix = aux.ieda_s_matrix
+            else:
+                MOs = aux.get_MOs_objs()
+                id_list_homo, id_list_lumo = self.__get_index_homo_lumo(MOs=MOs)
+                mo_coefficients = np.asarray([mo.coefficients for mo in MOs[:id_list_homo+1]], dtype=np.float32)
+                ao_atomindex = np.array(aux.ao_atomindex)
+                s_matrix = aux.get_S_objs(dtype=np.float32).matrix
             del aux
             
         elif molden != None:
             MOs = molden.MOs
             id_list_homo, id_list_lumo =  self.__get_index_homo_lumo(MOs=MOs)
-            mo_coefficients = np.array([mo.coefficients for mo in MOs[:id_list_homo+1]], dtype=np.float64)
+            mo_coefficients = np.asarray([mo.coefficients for mo in MOs[:id_list_homo+1]], dtype=np.float32)
             ao_atomindex = np.array(molden.get_ao_atomindex())
             
             logging.info(f"Nº AO inex: {len(ao_atomindex)}")
@@ -191,16 +202,17 @@ class IEDA:
         elif orca_out != None:
             MOs = orca_out.MOs
             id_list_homo, id_list_lumo = self.__get_index_homo_lumo(MOs=MOs)
-            mo_coefficients = np.array([mo.coefficients for mo in MOs[:id_list_homo+1]], dtype=np.float64)
+            mo_coefficients = np.asarray([mo.coefficients for mo in MOs[:id_list_homo+1]], dtype=np.float32)
             ao_atomindex = orca_out.ao_atomindex + 1 # ORCA usa índice 0; o código espera 1
             s_matrix = orca_out.overlap_matrix
 
             del orca_out
                 
-        del MOs
+        if 'MOs' in locals():
+            del MOs
         #list_ats = [at.id+1 for at in pdb.atoms]
         list_ats = pdb.data.inid + 1
-        s_matrix = np.array(s_matrix).astype(np.float64)
+        s_matrix = np.asarray(s_matrix, dtype=np.float32, order='C')
         
         if gpu:
             mulliken_matrix = core.matrix_intermolecular_eletron_density_numba_gpu(ats=list_ats, ao_atomindex=ao_atomindex, mo_coefficients=mo_coefficients, s_matrix=s_matrix, gpu_id=gpu_id)
@@ -1118,5 +1130,3 @@ class IEDA:
 
         plt.close()
         logging.info(f"Radial distribution saved to {path_out} and plot saved as {path_out.replace('.json', '.png')}")
-
-
